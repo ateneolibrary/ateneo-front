@@ -9,36 +9,6 @@ export default function LandingPage() {
       <div className={`${styles.shape} ${styles.blueRect}`} />
       <div className={`${styles.shape} ${styles.yellowBar}`} />
 
-      <header className={styles.header}>
-        <div className={`${styles.container} ${styles.nav}`}>
-          <a className={styles.brand} href="#">
-            <Image
-              src="/images/brand/medium.PNG"
-              alt="Ateneo logo"
-              width={125}
-              height={125}
-              className={styles.brandLogo}
-            />
-            <span className={styles.brandText}>Ateneo</span>
-          </a>
-
-          <nav className={styles.navLinks}>
-            <a href="#clubs">Explorar clubs</a>
-            <a href="#librerias">Librerías</a>
-            <a href="#como-funciona">Cómo funciona</a>
-          </nav>
-
-          <div className={styles.navActions}>
-            <a className={`${styles.btn} ${styles.btnSecondary}`} href="#">
-              Login
-            </a>
-            <a className={`${styles.btn} ${styles.btnPrimary}`} href="#">
-              Crear cuenta
-            </a>
-          </div>
-        </div>
-      </header>
-
       <main>
         <section className={styles.hero}>
           <div className={`${styles.container} ${styles.heroWrap}`}>
@@ -317,27 +287,6 @@ export default function LandingPage() {
           </div>
         </section>
       </main>
-
-      <footer className={styles.footer}>
-        <div className={`${styles.container} ${styles.footerRow}`}>
-          <div className={styles.footerBrand}>
-            <Image
-              src="/images/brand/small.PNG"
-              alt="Ateneo logo pequeño"
-              width={26}
-              height={26}
-              className={styles.footerLogo}
-            />
-            <span>Ateneo · lectura compartida para clubs y librerías independientes</span>
-          </div>
-          <div className={styles.footerLinks}>
-            <a href="#">About</a>
-            <a href="#">Contacto</a>
-            <a href="#">Privacidad</a>
-            <a href="#">GitHub</a>
-          </div>
-        </div>
-      </footer>
     </div>
   );
 }
