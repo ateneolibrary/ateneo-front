@@ -1,0 +1,167 @@
+.page {
+  min-height: 100vh;
+  color: var(--ink);
+  background: #e9dec5;
+}
+
+.main {
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 30px 20px 72px;
+  display: grid;
+  gap: 24px;
+}
+
+.searchBar {
+  display: grid;
+  grid-template-columns: 70px 1fr 138px;
+  border: 3px solid var(--line);
+  background: #f4f4f4;
+  min-height: 62px;
+}
+
+.searchIcon {
+  display: grid;
+  place-items: center;
+  border-right: 2px solid var(--line);
+  font-size: 1.35rem;
+  font-weight: 700;
+}
+
+.searchInput {
+  border: 0;
+  background: transparent;
+  outline: none;
+  font-size: 1rem;
+  padding: 0 16px;
+  color: #8a98ad;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.searchInput::placeholder {
+  color: #8a98ad;
+}
+
+.searchButton {
+  border: 0;
+  border-left: 2px solid var(--line);
+  background: var(--accent);
+  color: #fff;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.hero {
+  display: grid;
+  grid-template-columns: 1.2fr 0.56fr;
+  gap: 18px;
+  align-items: start;
+}
+
+.heroBox {
+  background: #f3f3f3;
+  border: 3px solid var(--line);
+  padding: 34px 36px;
+  min-height: 560px;
+  position: relative;
+}
+
+.badge {
+  position: absolute;
+  top: -16px;
+  left: -16px;
+  display: inline-flex;
+  background: var(--accent);
+  color: #fff;
+  padding: 8px 14px;
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.panel {
+  background: #f3f3f3;
+  border: 3px solid var(--line);
+  min-height: 560px;
+  display: grid;
+  grid-template-rows: auto 1fr auto auto;
+}
+
+.panelTitle {
+  margin: 0;
+  padding: 18px 18px 14px;
+  font-size: 1.35rem;
+  text-transform: uppercase;
+}
+
+.mapPlaceholder {
+  min-height: 240px;
+  border-top: 2px solid var(--line);
+  border-bottom: 2px solid var(--line);
+  background: radial-gradient(circle at center, #f0dfdf 0%, #e6d3d3 70%, #dcc4c4 100%);
+}
+
+.locations {
+  margin: 0;
+  padding: 0 18px;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+}
+
+.locations li {
+  display: grid;
+  gap: 4px;
+}
+
+.locations strong {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+}
+
+.locations span {
+  font-size: 0.8rem;
+  color: #66758a;
+  text-transform: uppercase;
+}
+
+.directoryBtn {
+  margin: 14px 18px 18px;
+  border: 3px solid var(--line);
+  background: #fff;
+  padding: 10px 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-weight: 800;
+  cursor: pointer;
+  font-size: 0.78rem;
+}
+
+@media (max-width: 1100px) {
+  .searchBar {
+    grid-template-columns: 64px 1fr 130px;
+    min-height: 60px;
+  }
+
+  .searchInput {
+    font-size: 1.1rem;
+  }
+
+  .hero {
+    grid-template-columns: 1fr;
+  }
+
+  .heroBox,
+  .panel {
+    min-height: auto;
+  }
+
+  .heroBox {
+    padding: 30px 24px;
+  }
+}

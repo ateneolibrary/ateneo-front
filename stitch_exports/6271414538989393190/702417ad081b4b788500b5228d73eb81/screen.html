@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+
+<html lang="es"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "primary": "#f20d0d",
+                "background-light": "#f8f5f5",
+                "background-dark": "#221010",
+              },
+              fontFamily: {
+                "display": ["Manrope"]
+              },
+              borderRadius: {"DEFAULT": "0.125rem", "lg": "0.25rem", "xl": "0.5rem", "full": "0.75rem"},
+            },
+          },
+        }
+      </script>
+<title>Ateneo - Book Club Dashboard</title>
+</head>
+<body class="bg-background-light dark:bg-background-dark font-display text-slate-900 dark:text-slate-100 antialiased">
+<div class="relative flex h-auto min-h-screen w-full flex-col group/design-root overflow-x-hidden">
+<div class="layout-container flex h-full grow flex-col">
+<!-- Header -->
+<header class="flex items-center justify-between whitespace-nowrap border-b border-solid border-slate-200 dark:border-slate-800 px-6 md:px-20 py-4 bg-white dark:bg-slate-900">
+<div class="flex items-center gap-4 text-slate-900 dark:text-slate-100">
+<div class="size-8 flex items-center justify-center bg-primary text-white rounded-none">
+<span class="material-symbols-outlined text-xl">menu_book</span>
+</div>
+<h2 class="text-xl font-extrabold leading-tight tracking-tighter uppercase">Ateneo</h2>
+</div>
+<div class="flex flex-1 justify-end gap-10 items-center">
+<nav class="hidden md:flex items-center gap-10">
+<a class="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Inicio</a>
+<a class="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Mis Clubes</a>
+<a class="text-sm font-bold uppercase tracking-widest hover:text-primary transition-colors" href="#">Explorar Clubes</a>
+</nav>
+<div class="bg-slate-200 dark:bg-slate-700 aspect-square rounded-full size-10 border-2 border-slate-900 dark:border-slate-100 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="User profile circular avatar photo" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB3R3zVD6bjrNISOEcPJVxcyKaJDIC3liMeo6anzAx4N1kbam7xv3qN9ajyCOwdpbOfGzp1eUMcGywhesAHCvSuwh4HIeJavVFQgHhyv9Yo9GYaTJ-nTyx5qgM3RtvqpI6b4C0a77Yx8lzgg7_GLHcn-EADHPDaSDJQag21eJLp_pOxKZGmY1B7c8XZS33sZCesZ8Jpg2sEFjbmPafm2CWYCx2cwzOlAyZW03SLy6aYveunRUoEWL_MeYOZTlsN35oZ5ND9Y8LAz44"/>
+</div>
+</div>
+</header>
+<main class="flex-1 max-w-7xl mx-auto w-full px-6 md:px-20 py-10 grid grid-cols-1 lg:grid-cols-12 gap-8">
+<!-- Left Column: Main Content -->
+<div class="lg:col-span-8 space-y-12">
+<!-- Current Read Section -->
+<section>
+<div class="flex items-baseline justify-between border-b-4 border-slate-900 dark:border-slate-100 pb-2 mb-6">
+<h2 class="text-3xl font-extrabold uppercase tracking-tighter">Current Read</h2>
+<span class="text-xs font-bold uppercase bg-primary text-white px-2 py-0.5">Active Now</span>
+</div>
+<div class="flex flex-col md:flex-row gap-8 items-start bg-white dark:bg-slate-900 p-6 border-2 border-slate-900 dark:border-slate-100 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] dark:shadow-[8px_8px_0px_0px_rgba(242,13,13,0.5)]">
+<div class="w-full md:w-48 aspect-[2/3] bg-slate-300 dark:bg-slate-700 flex-shrink-0 border-2 border-slate-900 dark:border-slate-100">
+<img class="w-full h-full object-cover" data-alt="Minimalist book cover for The Trial by Franz Kafka" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJ0Umc3r2nnZkYA1TBiDCdoFnhtg_T1q03Iy5zDkBJNX8T20N7kv1E6MotW-soyk7fOfiRvEVYauzIjWyPK4TuLyfhrbbFvQmo3m9xySK14rbpmeDvrV1rj-VCelYWt4EJh-9J_z7g8SkwXjRH4mt7RJxg_aRoIlHiRkEqMCF4_gq2ym7OK46pcIe4k0xyzewEPn_TSq6UjPTeYDV-85xmfSlUDjy8upBs1ZEQ2vmRQjtpsz84maTJfzOlNZWB4i9FBTAztANLElk"/>
+</div>
+<div class="flex-1 flex flex-col justify-between h-full py-2">
+<div>
+<h3 class="text-4xl font-black uppercase leading-none mb-2">The Trial</h3>
+<p class="text-xl font-medium text-slate-600 dark:text-slate-400 italic">Franz Kafka</p>
+<div class="mt-8">
+<div class="flex justify-between items-end mb-2">
+<span class="text-xs font-bold uppercase tracking-widest">Reading Progress</span>
+<span class="text-2xl font-black">65%</span>
+</div>
+<div class="h-4 w-full bg-slate-100 dark:bg-slate-800 border-2 border-slate-900 dark:border-slate-100 relative">
+<div class="h-full bg-primary" style="width: 65%;"></div>
+</div>
+</div>
+</div>
+<div class="mt-8 flex gap-4">
+<button class="bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 px-6 py-3 text-sm font-bold uppercase tracking-tighter hover:bg-primary transition-colors">Discussion Board</button>
+<button class="border-2 border-slate-900 dark:border-slate-100 px-6 py-3 text-sm font-bold uppercase tracking-tighter hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors">Book Details</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Club History Section -->
+<section>
+<div class="flex items-baseline border-b-4 border-slate-900 dark:border-slate-100 pb-2 mb-6">
+<h2 class="text-3xl font-extrabold uppercase tracking-tighter">Club History</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<!-- History Item 1 -->
+<div class="flex gap-4 p-4 border-2 border-slate-900 dark:border-slate-100 bg-white dark:bg-slate-900 hover:translate-x-1 hover:-translate-y-1 transition-transform">
+<div class="w-16 h-24 bg-slate-200 flex-shrink-0 border border-slate-900">
+<img class="w-full h-full object-cover" data-alt="Vintage book cover of 1984" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_xOo_ikXM30rwjEljZ7EPsWcYtEbiWoJlgu_fF6-x6slGnCSOXyqUMcyH21196qa7Y12hlW_qLl4ZPDCMagcz-MfafVjR1KqT8mjB0jlUrLFWfxXbI5OAodIvRVrsqbd25xQbNtSbIi5_KAT25saIsd3TOITNUJR3ts7PnlVpyM2WZZhDhPDi6owj34NiZhPa7-DQqY_WUUm6mvfcDWo7Qdyb6j7bIF9oHLr1-vVtne-mDNFY9W4eZTU2AepklOrd2CHJnwtSdk4"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="font-bold text-lg leading-tight">1984</h4>
+<p class="text-sm text-slate-500 uppercase font-bold tracking-tighter">George Orwell</p>
+<div class="flex items-center mt-2 text-primary">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm">star</span>
+<span class="ml-2 text-slate-900 dark:text-white text-xs font-bold">4.2/5</span>
+</div>
+</div>
+</div>
+<!-- History Item 2 -->
+<div class="flex gap-4 p-4 border-2 border-slate-900 dark:border-slate-100 bg-white dark:bg-slate-900 hover:translate-x-1 hover:-translate-y-1 transition-transform">
+<div class="w-16 h-24 bg-slate-200 flex-shrink-0 border border-slate-900">
+<img class="w-full h-full object-cover" data-alt="Cover of The Great Gatsby" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcYOfPZiBNzn95e6VJGgwQiAT52pcqBDs1CR3ePPSuE_NvyQMkeZrWi70WpESMa3bCElpiewx2noQXOcHBhPJUlNVgHrQ5nYNqJ9oimOja2D0U4yL0NEYJphFzV4ZgoA7ihrGLCC2ypGdw7v0yXTkfo2yob1SJ3G3Co0hXY5OOP3-oL_oaUdxkHGl8zE26r4lw0Z3RPzoN3DLnNREQIHNNVcVRplJA6syVg27txHvBdnlNB4WNv4oG5kn1ntPDhidrp3TmmFpxUEY"/>
+</div>
+<div class="flex flex-col justify-center">
+<h4 class="font-bold text-lg leading-tight">The Great Gatsby</h4>
+<p class="text-sm text-slate-500 uppercase font-bold tracking-tighter">F. Scott Fitzgerald</p>
+<div class="flex items-center mt-2 text-primary">
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="material-symbols-outlined text-sm fill-1">star</span>
+<span class="ml-2 text-slate-900 dark:text-white text-xs font-bold">4.9/5</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Readlist Section -->
+<section>
+<div class="flex items-baseline justify-between border-b-4 border-slate-900 dark:border-slate-100 pb-2 mb-6">
+<h2 class="text-3xl font-extrabold uppercase tracking-tighter">Community Readlist</h2>
+<button class="text-xs font-bold uppercase border-2 border-slate-900 dark:border-slate-100 px-3 py-1 hover:bg-slate-900 hover:text-white dark:hover:bg-slate-100 dark:hover:text-slate-900 transition-colors">Suggest a book</button>
+</div>
+<div class="space-y-3">
+<div class="flex items-center justify-between p-4 bg-slate-100 dark:bg-slate-800 border-l-8 border-primary">
+<div>
+<h4 class="font-bold">Brave New World</h4>
+<p class="text-xs text-slate-500 uppercase font-bold">Aldous Huxley — Suggested by Elena</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<span class="block text-xl font-black leading-none">24</span>
+<span class="text-[10px] uppercase font-bold text-slate-500">Votes</span>
+</div>
+<button class="size-10 border-2 border-slate-900 dark:border-slate-100 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined">thumb_up</span>
+</button>
+</div>
+</div>
+<div class="flex items-center justify-between p-4 bg-white dark:bg-slate-900 border-2 border-slate-900 dark:border-slate-100">
+<div>
+<h4 class="font-bold">Fahrenheit 451</h4>
+<p class="text-xs text-slate-500 uppercase font-bold">Ray Bradbury — Suggested by Marco</p>
+</div>
+<div class="flex items-center gap-4">
+<div class="text-right">
+<span class="block text-xl font-black leading-none">18</span>
+<span class="text-[10px] uppercase font-bold text-slate-500">Votes</span>
+</div>
+<button class="size-10 border-2 border-slate-900 dark:border-slate-100 flex items-center justify-center hover:bg-primary hover:text-white transition-colors">
+<span class="material-symbols-outlined">thumb_up</span>
+</button>
+</div>
+</div>
+</div>
+</section>
+</div>
+<!-- Right Column: Sidebar -->
+<div class="lg:col-span-4 space-y-10">
+<!-- Upcoming Events Section -->
+<section>
+<div class="flex items-baseline border-b-4 border-slate-900 dark:border-slate-100 pb-2 mb-6">
+<h2 class="text-2xl font-extrabold uppercase tracking-tighter">Meetings</h2>
+</div>
+<div class="space-y-6">
+<div class="relative pl-10 border-l-2 border-slate-300 dark:border-slate-700 pb-2">
+<div class="absolute -left-[9px] top-0 size-4 bg-primary border-2 border-slate-900 dark:border-slate-100"></div>
+<p class="text-xs font-black uppercase text-primary mb-1">October 24, 18:30</p>
+<h4 class="font-extrabold text-lg leading-tight uppercase">Chapter 1-5 Discussion</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Local Library (Cultural Hall)</p>
+</div>
+<div class="relative pl-10 border-l-2 border-slate-300 dark:border-slate-700 pb-2">
+<div class="absolute -left-[9px] top-0 size-4 bg-slate-900 dark:bg-slate-100"></div>
+<p class="text-xs font-black uppercase text-slate-400 mb-1">November 07, 19:00</p>
+<h4 class="font-extrabold text-lg leading-tight uppercase">Full Book Review</h4>
+<p class="text-sm text-slate-600 dark:text-slate-400 mt-1">Caffé del Borgo</p>
+</div>
+</div>
+</section>
+<!-- Club Administration Section (Admin Only) -->
+<section class="bg-slate-900 dark:bg-slate-100 text-white dark:text-slate-900 p-6 shadow-[8px_8px_0px_0px_rgba(242,13,13,1)]">
+<div class="flex items-center gap-2 mb-6">
+<span class="material-symbols-outlined text-primary">admin_panel_settings</span>
+<h2 class="text-xl font-extrabold uppercase tracking-tighter italic">Admin Panel</h2>
+</div>
+<div class="flex flex-col gap-3">
+<button class="w-full text-left p-3 border border-slate-700 dark:border-slate-300 flex items-center justify-between hover:bg-primary hover:text-white transition-colors group">
+<span class="text-sm font-bold uppercase tracking-widest">Edit Club Info</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full text-left p-3 border border-slate-700 dark:border-slate-300 flex items-center justify-between hover:bg-primary hover:text-white transition-colors group">
+<span class="text-sm font-bold uppercase tracking-widest">Manage Members</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+<button class="w-full text-left p-3 border border-slate-700 dark:border-slate-300 flex items-center justify-between hover:bg-primary hover:text-white transition-colors group">
+<span class="text-sm font-bold uppercase tracking-widest">Settings</span>
+<span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">settings</span>
+</button>
+</div>
+</section>
+<!-- Minimal Info Widget -->
+<section class="border-2 border-slate-900 dark:border-slate-100 p-6">
+<h3 class="font-black uppercase text-sm mb-4">Ateneo Stats</h3>
+<div class="grid grid-cols-2 gap-4">
+<div>
+<span class="block text-3xl font-black">42</span>
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Members</span>
+</div>
+<div>
+<span class="block text-3xl font-black">15</span>
+<span class="text-[10px] uppercase font-bold text-slate-500 tracking-widest">Books Read</span>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="mt-auto border-t-2 border-slate-900 dark:border-slate-100 bg-white dark:bg-slate-900 px-6 md:px-20 py-12">
+<div class="flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-4">
+<h2 class="text-2xl font-black uppercase tracking-tighter">Ateneo</h2>
+<span class="text-xs font-bold text-slate-400">© 2024 LITERARY SOCIETY</span>
+</div>
+<div class="flex gap-10">
+<a class="text-xs font-bold uppercase tracking-widest hover:text-primary" href="#">Contact</a>
+<a class="text-xs font-bold uppercase tracking-widest hover:text-primary" href="#">Legal</a>
+<a class="text-xs font-bold uppercase tracking-widest hover:text-primary" href="#">Support</a>
+</div>
+</div>
+</footer>
+</div>
+</div>
+</body></html>
