@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
-import { clubs, getClubById } from "@/components/mock-app";
+import Link from "next/link";
+import { clubs, getBookRouteId, getClubById } from "@/components/mock-app";
 import {
   CurrentReadPanel,
   DashboardViewport,
@@ -31,7 +32,7 @@ export default async function ClubDashboardPage({ params }: ClubDashboardPagePro
     .slice(0, 3);
 
   return (
-    <DashboardViewport clubName={club.name}>
+    <DashboardViewport clubId={id} clubName={club.name} activeItem="dashboard">
         <DashboardSearchBar />
 
         <section className={styles.topGrid}>
@@ -44,6 +45,7 @@ export default async function ClubDashboardPage({ params }: ClubDashboardPagePro
                   {[...club.readHistory.slice(0, 5), ...club.readHistory.slice(0, 5)].map((book, index) => (
                     <ReadHistoryItem
                       key={`${book.title}-${book.year}-${index}`}
+                      href={`/my-clubs/${id}/${getBookRouteId(book.title)}`}
                       title={book.title}
                       author={book.author}
                       year={book.year}
@@ -53,9 +55,9 @@ export default async function ClubDashboardPage({ params }: ClubDashboardPagePro
                   ))}
                 </div>
               </div>
-              <button className={styles.historyFullBtn} type="button">
+              <Link className={styles.historyFullBtn} href={`/my-clubs/${id}/library#history`}>
                 Ver historia completa
-              </button>
+              </Link>
             </section>
 
             <section className={`${styles.listPanel} ${styles.panelShell}`}>
@@ -71,7 +73,9 @@ export default async function ClubDashboardPage({ params }: ClubDashboardPagePro
                   />
                 ))}
               </div>
-              <button className={styles.historyFullBtn} type="button">Ver readlist completa</button>
+              <Link className={styles.historyFullBtn} href={`/my-clubs/${id}/library#readlist`}>
+                Ver readlist completa
+              </Link>
             </section>
           </div>
           <div className={styles.sideColumn}>

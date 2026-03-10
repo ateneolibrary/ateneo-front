@@ -3,7 +3,7 @@
   top: 0;
   z-index: 30;
   border-bottom: 3px solid var(--line);
-  background: #fff;
+  background: var(--paper);
   backdrop-filter: blur(8px);
 }
 
@@ -20,20 +20,22 @@
 .brand {
   text-decoration: none;
   color: var(--ink);
-  font-weight: 900;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
   display: inline-flex;
   align-items: center;
   gap: 8px;
 }
 
-.brand::before {
-  content: "";
-  width: 14px;
-  height: 14px;
-  background: var(--accent);
-  border: 2px solid var(--line);
+.brandLogoFrame {
+  position: relative;
+  width: 210px;
+  height: 52px;
+  overflow: hidden;
+  display: block;
+}
+
+.brandLogo {
+  object-fit: cover;
+  object-position: center;
 }
 
 .nav {
@@ -113,6 +115,11 @@
 }
 
 @media (max-width: 920px) {
+  .brandLogoFrame {
+    width: 168px;
+    height: 44px;
+  }
+
   .link {
     min-width: auto;
     padding: 0 10px;

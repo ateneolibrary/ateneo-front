@@ -1,3 +1,33 @@
+export type BookMemberRating = {
+  name: string;
+  initial: string;
+  rating: number;
+  avatar?: string;
+  role?: string;
+};
+
+export type BookQuote = {
+  member: string;
+  text: string;
+  page: string;
+};
+
+export type ReadHistoryBook = {
+  id: string;
+  title: string;
+  author: string;
+  year: string;
+  cover: string;
+  rating: number;
+  startDate: string;
+  endDate: string;
+  memberRatings: BookMemberRating[];
+  consensusVerdict: string;
+  verdictSwatches: string[];
+  quotes: BookQuote[];
+  totalHighlights: number;
+};
+
 export type ClubMock = {
   id: string;
   name: string;
@@ -9,6 +39,8 @@ export type ClubMock = {
   nextSession: string;
   description: string;
   mode: "Presencial" | "Online";
+  shareRating: boolean;
+  shareQuotes: boolean;
   stats: {
     booksRead: number;
     attendance: string;
@@ -20,13 +52,7 @@ export type ClubMock = {
     title: string;
     location: string;
   }>;
-  readHistory: Array<{
-    title: string;
-    author: string;
-    year: string;
-    cover: string;
-    rating: number;
-  }>;
+  readHistory: ReadHistoryBook[];
   wishList: Array<{
     title: string;
     author: string;

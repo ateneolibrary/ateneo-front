@@ -5,17 +5,24 @@ import DashboardSidebar from "./DashboardSidebar";
 import styles from "./ClubDashboard.module.css";
 
 type DashboardViewportProps = {
+  clubId: string;
   clubName: string;
   children: React.ReactNode;
+  activeItem?: "dashboard" | "library" | "members" | "meetings";
 };
 
-export default function DashboardViewport({ clubName, children }: DashboardViewportProps) {
+export default function DashboardViewport({ clubId, clubName, children, activeItem }: DashboardViewportProps) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   return (
     <div className={`${styles.layout} ${!sidebarOpen ? styles.layoutExpanded : ""}`}>
       {sidebarOpen ? (
-        <DashboardSidebar clubName={clubName} onToggleSidebar={() => setSidebarOpen(false)} />
+        <DashboardSidebar
+          clubId={clubId}
+          clubName={clubName}
+          onToggleSidebar={() => setSidebarOpen(false)}
+          activeItem={activeItem}
+        />
       ) : (
         <aside className={styles.sidebarCollapsed}>
           <button

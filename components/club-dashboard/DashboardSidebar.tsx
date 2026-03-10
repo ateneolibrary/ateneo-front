@@ -2,11 +2,13 @@ import styles from "./ClubDashboard.module.css";
 import Link from "next/link";
 
 type DashboardSidebarProps = {
+  clubId: string;
   clubName: string;
   onToggleSidebar: () => void;
+  activeItem?: "dashboard" | "library" | "members" | "meetings";
 };
 
-export default function DashboardSidebar({ clubName, onToggleSidebar }: DashboardSidebarProps) {
+export default function DashboardSidebar({ clubId, clubName, onToggleSidebar, activeItem }: DashboardSidebarProps) {
   return (
     <aside className={styles.sidebar}>
       <div className={styles.brand}>
@@ -24,10 +26,20 @@ export default function DashboardSidebar({ clubName, onToggleSidebar }: Dashboar
         </button>
       </div>
       <nav className={styles.nav}>
-        <div className={`${styles.navItem} ${styles.navItemActive}`}>Dashboard</div>
-        <div className={styles.navItem}>Library</div>
-        <div className={styles.navItem}>Members</div>
-        <div className={styles.navItem}>Meetings</div>
+        <Link
+          href={`/my-clubs/${clubId}/dashboard`}
+          className={`${styles.navItem} ${styles.navItemLink} ${activeItem === "dashboard" ? styles.navItemActive : ""}`}
+        >
+          Dashboard
+        </Link>
+        <Link
+          href={`/my-clubs/${clubId}/library`}
+          className={`${styles.navItem} ${styles.navItemLink} ${activeItem === "library" ? styles.navItemActive : ""}`}
+        >
+          Library
+        </Link>
+        <div className={`${styles.navItem} ${activeItem === "members" ? styles.navItemActive : ""}`}>Members</div>
+        <div className={`${styles.navItem} ${activeItem === "meetings" ? styles.navItemActive : ""}`}>Meetings</div>
       </nav>
 
     </aside>

@@ -1,3 +1,3 @@
 export { default as AppHeader } from "./AppHeader";
-export { clubs, getClubById } from "./data";
-export type { ClubMock } from "./types";
+export { clubs, getBookRouteId, getClubById, getBookById } from "./data";
+export type { ClubMock, ReadHistoryBook, BookMemberRating, BookQuote } from "./types";

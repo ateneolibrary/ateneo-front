@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import type { ClubMock } from "@/components/mock-app";
 import styles from "./ClubDashboard.module.css";
@@ -9,10 +9,73 @@ type CurrentReadPanelProps = {
   club: ClubMock;
 };
 
+type BookOption = {
+  id: string;
+  title: string;
+  author: string;
+  cover: string;
+};
+
+type SwitchPhase = "idle" | "exit" | "enter";
+
+function normalizeKey(value: string): string {
+  return value.trim().toLowerCase();
+}
+
 export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
   const [showFinishModal, setShowFinishModal] = useState(false);
   const [animationDone, setAnimationDone] = useState(false);
   const [surveyEnabled, setSurveyEnabled] = useState(false);
+  const [showChangeModal, setShowChangeModal] = useState(false);
+  const [switchPhase, setSwitchPhase] = useState<SwitchPhase>("idle");
+  const [bookSwitched, setBookSwitched] = useState(false);
+
+  const availableBooks = useMemo<BookOption[]>(() => {
+    const map = new Map<string, BookOption>();
+
+    const currentKey = normalizeKey(club.book);
+    map.set(currentKey, {
+      id: currentKey,
+      title: club.book,
+      author: club.author,
+      cover: club.bookCover,
+    });
+
+    for (const book of club.readHistory) {
+      const key = normalizeKey(book.title);
+      if (map.has(key)) continue;
+      map.set(key, {
+        id: key,
+        title: book.title,
+        author: book.author,
+        cover: book.cover,
+      });
+    }
+
+    return Array.from(map.values());
+  }, [club]);
+
+  const [currentBook, setCurrentBook] = useState<BookOption>({
+    id: normalizeKey(club.book),
+    title: club.book,
+    author: club.author,
+    cover: club.bookCover,
+  });
+  const [pendingBookId, setPendingBookId] = useState<string>(normalizeKey(club.book));
+  const quotes = [
+    "Lectura actual centrada en análisis de personajes y narrativa.",
+    "Debate semanal con foco en ritmo, símbolos y evolución del protagonista.",
+  ];
+
+  useEffect(() => {
+    setCurrentBook({
+      id: normalizeKey(club.book),
+      title: club.book,
+      author: club.author,
+      cover: club.bookCover,
+    });
+    setPendingBookId(normalizeKey(club.book));
+  }, [club]);
 
   useEffect(() => {
     if (!showFinishModal) {
@@ -23,25 +86,77 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
     return () => clearTimeout(timer);
   }, [showFinishModal]);
 
+  function openChangeBookModal() {
+    setPendingBookId(currentBook.id);
+    setShowChangeModal(true);
+  }
+
+  function confirmBookChange() {
+    const selected = availableBooks.find((book) => book.id === pendingBookId);
+    if (!selected) {
+      setShowChangeModal(false);
+      return;
+    }
+
+    if (selected.id === currentBook.id) {
+      setShowChangeModal(false);
+      return;
+    }
+
+    setShowChangeModal(false);
+    setSwitchPhase("exit");
+
+    window.setTimeout(() => {
+      setCurrentBook(selected);
+      setSwitchPhase("enter");
+      setBookSwitched(true);
+
+      window.setTimeout(() => {
+        setSwitchPhase("idle");
+      }, 320);
+
+      window.setTimeout(() => {
+        setBookSwitched(false);
+      }, 1800);
+    }, 260);
+  }
+
   return (
     <>
       <article className={styles.currentRead}>
         <span className={styles.badge}>Current Read</span>
         <div className={styles.featureGrid}>
-          <div className={styles.cover}>
+          <div
+            className={`${styles.cover} ${
+              switchPhase === "exit"
+                ? styles.coverSwitchExit
+                : switchPhase === "enter"
+                  ? styles.coverSwitchEnter
+                  : ""
+            }`}
+          >
             <Image
-              src={club.bookCover}
-              alt={`Portada de ${club.book}`}
+              src={currentBook.cover}
+              alt={`Portada de ${currentBook.title}`}
               fill
               sizes="270px"
               className={styles.coverImg}
             />
           </div>
 
-          <div>
-            <h1 className={styles.bookTitle}>{club.book}</h1>
-            <p className={styles.bookAuthor}>{club.author}</p>
+          <div
+            className={`${
+              switchPhase === "exit"
+                ? styles.metaSwitchExit
+                : switchPhase === "enter"
+                  ? styles.metaSwitchEnter
+                  : ""
+            }`}
+          >
+            <h1 className={styles.bookTitle}>{currentBook.title}</h1>
+            <p className={styles.bookAuthor}>{currentBook.author}</p>
             {surveyEnabled ? <p className={styles.surveyEnabled}>Encuesta habilitada</p> : null}
+            {bookSwitched ? <p className={styles.bookChangedFlag}>Nuevo libro activo</p> : null}
 
             <div className={styles.readActionsGrid}>
               <div className={styles.actionsCol}>
@@ -53,18 +168,26 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
                   >
                     Finalizar lectura
                   </button>
-                  <button type="button" className={styles.btn}>Cambiar libro</button>
-                  <button type="button" className={styles.btn}>Añadir cita</button>
+                  <button
+                    type="button"
+                    className={styles.btn}
+                    onClick={openChangeBookModal}
+                    disabled={switchPhase !== "idle"}
+                  >
+                    Cambiar libro
+                  </button>
+                  <button type="button" className={styles.btn}>
+                    Añadir cita
+                  </button>
                 </div>
               </div>
 
               <div className={styles.quoteCol}>
-                <p className={styles.quote}>
-                  "Lectura actual centrada en análisis de personajes y narrativa."
-                </p>
-                <p className={styles.quote}>
-                  "Debate semanal con foco en ritmo, símbolos y evolución del protagonista."
-                </p>
+                {quotes.map((quote, index) => (
+                  <p key={`${quote}-${index}`} className={styles.quote}>
+                    {quote}
+                  </p>
+                ))}
               </div>
             </div>
           </div>
@@ -92,8 +215,8 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
                     <div className={styles.finishPages} />
                     <div className={styles.finishCover} aria-hidden="true">
                       <Image
-                        src={club.bookCover}
-                        alt={`Portada de ${club.book}`}
+                        src={currentBook.cover}
+                        alt={`Portada de ${currentBook.title}`}
                         fill
                         sizes="220px"
                         className={styles.finishCoverImg}
@@ -121,6 +244,47 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
                 }}
               >
                 Lanzar votación
+              </button>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
+      {showChangeModal ? (
+        <div className={styles.changeOverlay} role="dialog" aria-modal="true" aria-label="Cambiar libro">
+          <div className={styles.changeModal}>
+            <h3 className={styles.changeTitle}>Cambiar libro</h3>
+            <p className={styles.changeIntro}>Selecciona el próximo libro activo del club.</p>
+            <div className={styles.changeGrid}>
+              {availableBooks.map((book) => (
+                <button
+                  key={book.id}
+                  type="button"
+                  className={`${styles.changeItem} ${pendingBookId === book.id ? styles.changeItemActive : ""}`}
+                  onClick={() => setPendingBookId(book.id)}
+                >
+                  <div className={styles.changeCover}>
+                    <Image
+                      src={book.cover}
+                      alt={`Portada de ${book.title}`}
+                      fill
+                      sizes="90px"
+                      className={styles.changeCoverImg}
+                    />
+                  </div>
+                  <div className={styles.changeMeta}>
+                    <p className={styles.changeBookTitle}>{book.title}</p>
+                    <p className={styles.changeBookAuthor}>{book.author}</p>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <div className={styles.changeActions}>
+              <button type="button" className={styles.modalBtn} onClick={() => setShowChangeModal(false)}>
+                Cerrar
+              </button>
+              <button type="button" className={`${styles.modalBtn} ${styles.modalBtnPrimary}`} onClick={confirmBookChange}>
+                Activar libro
               </button>
             </div>
           </div>

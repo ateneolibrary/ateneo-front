@@ -1,22 +1,12 @@
 import { BookOfWeekFeature } from "@/components/home";
+import { DashboardSearchBar } from "@/components/club-dashboard";
 import styles from "./page.module.css";
 
 export default function HomePage() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <section className={styles.searchBar}>
-          <div className={styles.searchIcon}>⌕</div>
-          <input
-            className={styles.searchInput}
-            type="text"
-            placeholder="BUSCAR TITULOS, AUTORES O CLUBES..."
-            aria-label="Buscar títulos, autores o clubes"
-          />
-          <button className={styles.searchButton} type="button">
-            SEARCH
-          </button>
-        </section>
+        <DashboardSearchBar />
 
         <section className={styles.hero}>
           <article className={styles.heroBox}>
