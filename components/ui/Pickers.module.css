@@ -1,0 +1,312 @@
+/* ============================================================
+   Pickers.module.css — Shared styles for Date, Time, Duration
+   ============================================================ */
+
+.container {
+  position: relative;
+  width: 100%;
+}
+
+.trigger {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  padding: 0.75rem 0;
+  border: none;
+  border-bottom: 1.5px solid var(--ink);
+  background: transparent;
+  cursor: pointer;
+  transition: border-bottom-color 0.2s;
+  color: var(--ink);
+}
+
+.trigger:hover, .trigger.open {
+  border-bottom-color: var(--accent);
+}
+
+.iconWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #798394; /* grayish blue from design */
+  margin-right: 12px;
+}
+
+.iconWrapper svg {
+  width: 20px;
+  height: 20px;
+}
+
+.triggerText {
+  font-size: 1.3rem;
+  font-weight: 300; /* Thin font like design */
+  color: #1b202a;
+  letter-spacing: -0.01em;
+  flex: 1;
+  text-align: left;
+}
+
+.triggerInput {
+  font-size: 1.3rem;
+  font-weight: 300;
+  color: #1b202a;
+  letter-spacing: -0.01em;
+  flex: 1;
+  text-align: left;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-family: inherit;
+  width: 100%;
+}
+
+.triggerInput::-webkit-calendar-picker-indicator {
+  display: none;
+}
+.triggerInput::-webkit-inner-spin-button,
+.triggerInput::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.chevron {
+  color: #1b202a;
+  opacity: 0.6;
+}
+
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  width: 100%;
+  min-width: 320px;
+  background: #fdfdfd; /* very light grey almost white */
+  border: 1px solid #e1e4e8;
+  margin-top: 8px;
+  z-index: 50;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+  padding: 1.5rem;
+}
+
+/* ── Date Picker Dropdown ── */
+.dateHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+}
+
+.monthYear {
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: #1b202a;
+  font-style: italic; /* Design shows italicized month year */
+}
+
+.calNav {
+  display: flex;
+  gap: 12px;
+}
+
+.calNavBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #1b202a;
+  font-size: 1rem;
+  padding: 0 4px;
+}
+
+.calGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  row-gap: 1.25rem;
+  text-align: center;
+}
+
+.weekDay {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: #93a1b3;
+  margin-bottom: 0.5rem;
+}
+
+.dayBtn {
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #1b202a;
+  width: 32px;
+  height: 32px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.dayBtn.otherMonth {
+  color: #cbd2d9;
+}
+
+.dayBtn.selected {
+  background: #e42918; /* accurate red */
+  color: #fff;
+  font-weight: 700;
+}
+
+.dayBtn:hover:not(.selected) {
+  background: #f1f3f5;
+}
+
+/* ── Time Picker Dropdown ── */
+.timeList {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding-bottom: 0.5rem;
+  /* Scrollbar hiding for webkit */
+}
+.timeList::-webkit-scrollbar {
+  display: none;
+}
+
+.timeBtn {
+  background: transparent;
+  border: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #93a1b3;
+  cursor: pointer;
+  padding: 0 4px 6px;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+}
+
+.timeBtn.selected {
+  color: #1b202a;
+  font-weight: 700;
+  border-bottom-color: #e42918;
+}
+
+.timeBtn:hover:not(.selected) {
+  color: #1b202a;
+}
+
+/* ── Duration Picker Dropdown ── */
+.durationList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.durationBtn {
+  background: transparent;
+  border: 1.5px solid #1b202a;
+  padding: 0.6rem 1.2rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #1b202a;
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.15s;
+}
+
+.durationBtn.selected {
+  background: #10141f;
+  color: #fff;
+}
+
+.durationBtn:hover:not(.selected) {
+  background: #f1f3f5;
+}
+
+/* ── Flat Pickers (Inline) ── */
+.flatContainer {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.flatHeader {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 2px solid var(--ink);
+  padding-bottom: 0.35rem;
+}
+
+.iconWrapperSmall {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--accent);
+}
+
+.iconWrapperSmall svg {
+  width: 18px;
+  height: 18px;
+}
+
+.flatOptionsList {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  /* Scrollbar hiding for webkit */
+}
+.flatOptionsList::-webkit-scrollbar {
+  display: none;
+}
+
+.timeBtnFlat {
+  background: transparent;
+  border: none;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--muted);
+  cursor: pointer;
+  padding: 0.4rem 0.5rem;
+  border-bottom: 2px solid transparent;
+  white-space: nowrap;
+  transition: all 0.15s;
+}
+
+.timeBtnFlat.selectedFlat {
+  color: var(--ink);
+  font-weight: 800;
+  border-bottom-color: var(--accent);
+}
+
+.timeBtnFlat:hover:not(.selectedFlat) {
+  color: var(--ink);
+}
+
+.durationBtnFlat {
+  background: transparent;
+  border: 1.5px solid var(--muted);
+  padding: 0.4rem 0.6rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: all 0.15s;
+  white-space: nowrap;
+}
+
+.durationBtnFlat.selectedFlatDur {
+  border-color: var(--ink);
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.durationBtnFlat:hover:not(.selectedFlatDur) {
+  border-color: var(--ink);
+  color: var(--ink);
+}

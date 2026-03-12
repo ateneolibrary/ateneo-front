@@ -1,0 +1,879 @@
+/* ──────────────────────────────────────
+   PAGE SHELL
+────────────────────────────────────── */
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 24px 20px 48px;
+  display: grid;
+  gap: 18px;
+}
+
+.topActions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.backLink {
+  appearance: none;
+  -webkit-appearance: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+  font-family: inherit;
+  line-height: 1;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--ink);
+  border: 2px solid var(--line);
+  padding: 5px 11px;
+  background: var(--paper);
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.18);
+  transition: transform 0.12s ease, box-shadow 0.12s ease;
+  width: fit-content;
+}
+
+.backLink:hover {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.18);
+}
+
+.backLink:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.editActions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.editPrimaryBtn,
+.editSecondaryBtn {
+  border: 2px solid var(--line);
+  min-height: 34px;
+  padding: 0 10px;
+  font-size: 0.62rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  transition: transform 0.12s ease, box-shadow 0.12s ease, background 0.12s ease, color 0.12s ease;
+}
+
+.editPrimaryBtn {
+  color: #fff;
+  background: var(--accent);
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.2);
+}
+
+.editPrimaryBtn:hover {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.2);
+}
+
+.editSecondaryBtn {
+  color: var(--ink);
+  background: var(--paper);
+  box-shadow: 2px 2px 0 rgba(17, 17, 17, 0.16);
+}
+
+.editSecondaryBtn:hover {
+  background: #eceff4;
+}
+
+.editPrimaryBtn:focus-visible,
+.editSecondaryBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────────────
+   PROFILE HEADER
+────────────────────────────────────── */
+.profileHeader {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 28px;
+  align-items: center;
+  border: 3px solid var(--line);
+  background: var(--paper);
+  padding: 28px 28px 24px;
+  box-shadow: 8px 8px 0 rgba(17, 17, 17, 0.2);
+}
+
+.profileAvatarWrap {
+  position: relative;
+  flex-shrink: 0;
+  display: grid;
+  gap: 8px;
+}
+
+.profileAvatar {
+  width: 88px;
+  height: 88px;
+  border: 3px solid var(--line);
+  object-fit: cover;
+  display: block;
+  box-shadow: 6px 6px 0 var(--accent);
+}
+
+.profileInfo {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.fieldLabel {
+  display: grid;
+  gap: 6px;
+  font-size: 0.56rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #6e7f97;
+}
+
+.fieldInput,
+.nameInput,
+.bioInput {
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--ink);
+  font-family: inherit;
+}
+
+.fieldInput,
+.nameInput {
+  min-height: 36px;
+  padding: 0 10px;
+  font-size: 0.84rem;
+  font-weight: 700;
+}
+
+.nameInput {
+  text-transform: uppercase;
+  font-weight: 900;
+  font-size: clamp(1.15rem, 2.5vw, 1.85rem);
+  line-height: 1;
+}
+
+.bioInput {
+  padding: 8px 10px;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  resize: vertical;
+  min-height: 92px;
+}
+
+.fieldInput:focus-visible,
+.nameInput:focus-visible,
+.bioInput:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.profileName {
+  margin: 0;
+  font-size: clamp(1.6rem, 3.2vw, 2.4rem);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.95;
+  letter-spacing: -0.01em;
+}
+
+.profileUsername {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.profileBio {
+  margin: 4px 0 0;
+  font-size: 0.9rem;
+  color: #4b5e78;
+  line-height: 1.5;
+  max-width: 560px;
+}
+
+/* ──────────────────────────────────────
+   BODY: 2-COLUMN GRID
+────────────────────────────────────── */
+.profileBody {
+  display: grid;
+  grid-template-columns: 1fr 264px;
+  gap: 14px;
+  align-items: start;
+}
+
+.profileMain {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+.profileSide {
+  display: grid;
+  gap: 14px;
+  min-width: 0;
+}
+
+/* ──────────────────────────────────────
+   SHARED PANEL SHELL
+────────────────────────────────────── */
+.panel {
+  border: 3px solid var(--line);
+  background: var(--paper);
+  padding: 18px 18px 16px;
+  box-shadow: 8px 8px 0 rgba(17, 17, 17, 0.2);
+}
+
+.sectionHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--line);
+  margin-bottom: 18px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.68rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ──────────────────────────────────────
+   "GIRAR TODOS" BUTTON
+────────────────────────────────────── */
+.flipAllBtn {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  padding: 5px 12px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.2);
+  transition: transform 0.12s ease, box-shadow 0.12s ease, color 0.18s ease;
+  z-index: 0;
+  white-space: nowrap;
+}
+
+.flipAllBtn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left center;
+  transition: transform 0.22s ease;
+  z-index: -1;
+}
+
+.flipAllBtn:hover {
+  color: #fff;
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.2);
+}
+
+.flipAllBtn:hover::before {
+  transform: scaleX(1);
+}
+
+.editHint {
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: #6e7f97;
+}
+
+/* ──────────────────────────────────────
+   FAVORITE BOOKS GRID (4 flip cards)
+────────────────────────────────────── */
+.favGrid {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* ──────────────────────────────────────
+   FLIP CARD
+   Width = ModernBookCover size lg = 170px
+   Aspect = 3/4 (same as .bookScene)
+────────────────────────────────────── */
+.flipCard {
+  width: 170px;
+  perspective: 900px;
+  cursor: pointer;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.flipCardEditable {
+  cursor: pointer;
+}
+
+.flipCardInner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  transform-style: preserve-3d;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.flipCardInner.flipped {
+  transform: rotateY(180deg);
+}
+
+.flipCardFront,
+.flipCardBack {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.flipCardBack {
+  transform: rotateY(180deg);
+  overflow: visible;
+}
+
+/* WHITE CARD (front face – book set but not yet revealed) */
+.whiteCard {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 3px solid var(--line);
+  box-shadow: 5px 5px 0 rgba(17, 17, 17, 0.18);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: box-shadow 0.12s ease, transform 0.12s ease;
+}
+
+.flipCard:hover .whiteCard {
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.18);
+  transform: translateY(1px);
+}
+
+.whiteCardHint {
+  font-size: 0.48rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  color: #c5ccd6;
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+  user-select: none;
+}
+
+.whiteCardIcon {
+  width: 22px;
+  height: 22px;
+  color: #d8dde5;
+}
+
+/* EMPTY CARD (front face – no book set) */
+.emptyCard {
+  width: 100%;
+  height: 100%;
+  background: #fff;
+  border: 3px dashed #c5ccd6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.flipCard:hover .emptyCard {
+  border-color: var(--accent);
+  background: #fff9f9;
+}
+
+.emptyCardPlus {
+  font-size: 2.4rem;
+  font-weight: 900;
+  color: #c5ccd6;
+  line-height: 1;
+  transition: color 0.14s ease;
+}
+
+.flipCard:hover .emptyCardPlus {
+  color: var(--accent);
+}
+
+.emptyCardLabel {
+  font-size: 0.5rem;
+  text-transform: uppercase;
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  color: #b0bac8;
+  text-align: center;
+  transition: color 0.14s ease;
+}
+
+.flipCard:hover .emptyCardLabel {
+  color: var(--accent);
+}
+
+.removeBookBtn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--line);
+  font-size: 0.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  cursor: pointer;
+  z-index: 3;
+}
+
+.removeBookBtn:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.removeBookBtn:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+/* ──────────────────────────────────────
+   GENRES PANEL
+────────────────────────────────────── */
+.genreEditor {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.genreAddRow {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 8px;
+}
+
+.genreInput {
+  min-height: 34px;
+  border: 2px solid var(--line);
+  background: #fff;
+  padding: 0 9px;
+  font-size: 0.78rem;
+  color: var(--ink);
+}
+
+.genreInput:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.genreAddBtn {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  min-width: 76px;
+  padding: 0 10px;
+  font-size: 0.58rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.genreAddBtn:hover:not(:disabled) {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+
+.genreAddBtn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.genreCounter {
+  margin: 0;
+  font-size: 0.56rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: #8a98ad;
+}
+
+.genreList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 9px;
+}
+
+.genreItem {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+}
+
+.genreItemText {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.genreDot {
+  width: 10px;
+  height: 10px;
+  background: var(--accent);
+  flex-shrink: 0;
+}
+
+.genreRemoveBtn {
+  border: 2px solid #d9dde3;
+  background: #fff;
+  color: #6e7f97;
+  font-size: 0.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 2px 6px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.genreRemoveBtn:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.genreItemEmpty {
+  margin: 0;
+  font-size: 0.72rem;
+  color: #b0bac8;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* ──────────────────────────────────────
+   CLUBS PANEL
+────────────────────────────────────── */
+.clubList {
+  display: grid;
+  gap: 8px;
+}
+
+.clubCard {
+  display: grid;
+  grid-template-columns: 6px 1fr;
+  gap: 10px;
+  align-items: stretch;
+  text-decoration: none;
+  color: inherit;
+  border: 2px solid #d9dde3;
+  background: #fff;
+  transition: border-color 0.14s ease, background 0.14s ease;
+}
+
+.clubCard:hover {
+  border-color: var(--accent);
+  background: #fff9f9;
+}
+
+.clubCardAccent {
+  background: var(--accent);
+  min-height: 44px;
+}
+
+.clubCardInfo {
+  display: grid;
+  gap: 2px;
+  align-content: center;
+  padding: 8px 8px 8px 0;
+}
+
+.clubCardName {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.15;
+}
+
+.clubCardMeta {
+  display: block;
+  font-size: 0.62rem;
+  color: #7b8798;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+/* ──────────────────────────────────────
+   BOOK PICKER MODAL
+────────────────────────────────────── */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(8, 10, 14, 0.52);
+  display: grid;
+  place-items: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.pickerModal {
+  width: min(540px, 100%);
+  border: 3px solid var(--line);
+  background: #f5f5f5;
+  box-shadow: 10px 10px 0 rgba(17, 17, 17, 0.3);
+  display: grid;
+  grid-template-rows: auto auto 1fr;
+  max-height: min(620px, 90vh);
+  overflow: hidden;
+}
+
+.pickerHead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 13px 16px;
+  border-bottom: 2px solid var(--line);
+  background: var(--line);
+  color: #fff;
+}
+
+.pickerTitle {
+  margin: 0;
+  font-size: 0.76rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.pickerClose {
+  background: transparent;
+  border: 2px solid rgba(255, 255, 255, 0.35);
+  color: #fff;
+  width: 28px;
+  height: 28px;
+  display: grid;
+  place-items: center;
+  font-size: 0.68rem;
+  font-weight: 900;
+  cursor: pointer;
+  transition: background 0.12s ease, border-color 0.12s ease;
+}
+
+.pickerClose:hover {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.pickerSearch {
+  display: flex;
+  align-items: center;
+  height: 44px;
+  border-bottom: 2px solid var(--line);
+  background: #fff;
+}
+
+.pickerSearchIcon {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #8a98ad;
+  margin: 0 10px 0 14px;
+}
+
+.pickerSearchInput {
+  flex: 1;
+  border: 0;
+  outline: none;
+  background: transparent;
+  font-size: 0.84rem;
+  color: var(--ink);
+  padding-right: 12px;
+}
+
+.pickerSearchInput::placeholder {
+  color: #b0bac8;
+}
+
+.pickerSearchInput::-webkit-search-cancel-button {
+  display: none;
+}
+
+.pickerList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+.pickerList::-webkit-scrollbar {
+  width: 6px;
+}
+
+.pickerList::-webkit-scrollbar-track {
+  background: #e8eaed;
+}
+
+.pickerList::-webkit-scrollbar-thumb {
+  background: #a7b3c4;
+}
+
+.pickerItem {
+  width: 100%;
+  border: 0;
+  border-bottom: 2px solid #e8eaed;
+  background: #fff;
+  display: grid;
+  grid-template-columns: 44px 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 9px 14px;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.1s ease;
+}
+
+.pickerItem:hover:not(:disabled) {
+  background: #f0f2f5;
+}
+
+.pickerItem:disabled {
+  cursor: default;
+}
+
+.pickerItemCover {
+  width: 44px;
+  height: 58px;
+  object-fit: cover;
+  border: 2px solid var(--line);
+  display: block;
+  flex-shrink: 0;
+}
+
+.pickerItemInfo {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.pickerItemTitle {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 1.15;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.pickerItemAuthor {
+  display: block;
+  font-size: 0.64rem;
+  color: #7b8798;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.pickerItemPicked .pickerItemTitle,
+.pickerItemPicked .pickerItemAuthor {
+  opacity: 0.45;
+}
+
+.pickerItemTag {
+  font-size: 0.5rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--accent);
+  white-space: nowrap;
+  border: 2px solid var(--accent);
+  padding: 2px 6px;
+}
+
+.pickerEmpty {
+  padding: 32px 20px;
+  text-align: center;
+  font-size: 0.78rem;
+  color: #8a98ad;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* ──────────────────────────────────────
+   RESPONSIVE
+────────────────────────────────────── */
+@media (max-width: 980px) {
+  .profileBody {
+    grid-template-columns: 1fr;
+  }
+
+  .profileSide {
+    grid-template-columns: 1fr 1fr;
+    width: 100%;
+  }
+}
+
+@media (max-width: 680px) {
+  .profileHeader {
+    grid-template-columns: 1fr;
+    justify-items: center;
+    text-align: center;
+  }
+
+  .profileBio {
+    max-width: 100%;
+  }
+
+  .profileSide {
+    grid-template-columns: 1fr;
+  }
+
+  .favGrid {
+    justify-content: center;
+    gap: 10px;
+  }
+
+  .flipCard {
+    width: 136px;
+  }
+}

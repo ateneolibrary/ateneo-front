@@ -38,8 +38,18 @@ export default function DashboardSidebar({ clubId, clubName, onToggleSidebar, ac
         >
           Library
         </Link>
-        <div className={`${styles.navItem} ${activeItem === "members" ? styles.navItemActive : ""}`}>Members</div>
-        <div className={`${styles.navItem} ${activeItem === "meetings" ? styles.navItemActive : ""}`}>Meetings</div>
+        <Link
+          href={`/my-clubs/${clubId}/members`}
+          className={`${styles.navItem} ${styles.navItemLink} ${activeItem === "members" ? styles.navItemActive : ""}`}
+        >
+          Members
+        </Link>
+        <Link
+          href={`/my-clubs/${clubId}/meetings`}
+          className={`${styles.navItem} ${styles.navItemLink} ${activeItem === "meetings" ? styles.navItemActive : ""}`}
+        >
+          Reuniones
+        </Link>
       </nav>
 
     </aside>

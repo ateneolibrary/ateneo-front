@@ -6,3 +6,4 @@ export { default as StatsPanel } from "./StatsPanel";
 export { default as ListPanel } from "./ListPanel";
 export { default as ReadHistoryItem } from "./ReadHistoryItem";
 export { default as WishBookVoteItem } from "./WishBookVoteItem";
+export { default as MembersBoard } from "./MembersBoard";
