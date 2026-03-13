@@ -30,10 +30,6 @@ Allow a user to create a new reading club in free-tier MVP with only essential s
 - Additional MVP fields (non-automation, low complexity):
   - Primary language (single-select).
   - Content warnings visibility toggle.
-- Free-tier member cap behavior:
-  - Maximum members is fixed at 10.
-  - Show the max-members control as locked with a closed lock icon.
-  - User cannot change max member count in free tier.
 - Validate category count hard limit at 5.
 - Do not include periodic meetings, recurring rules, reminders, or any automation-related controls.
 
