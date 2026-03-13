@@ -1,54 +1,100 @@
-# Context
+# Project Context
 
-We are building a static fronted at the moment, only mock-up with some data but mockups. And de poupose of ateno
-is to create a web to be able to manage book clubs in spain primarly. At the time we've donde some mokups, such as:
+## Product Vision
+Ateneo is a web product for managing book clubs in Spain. The current phase focuses on static frontend mockups with local/mock data to define structure, interaction, and visual language before backend integration.
 
-- Club Dashboard: app/my-club/[id]/dasboard  
-- Club Members: app/my-club/[id]/members
-- Club Library: app/my-club/[id]/library
-- Profile: app/profile/[userId]
+## Current Scope
+- Frontend-only implementation (no production backend flows yet).
+- High-fidelity route-level mockups and reusable UI pieces.
+- Consistent UX patterns for club management: discover clubs, manage club spaces, and navigate personal profile areas.
 
-Latter I will tell yo more about those pages, now I'm gona list what we have left.
+## Implemented Routes
+- Landing: `app/page.tsx` (`/`)
+- Login: `app/login/page.tsx` (`/login`)
+- Create account: `app/create-acount/page.tsx` (`/create-acount`)
+- My clubs list: `app/my-clubs/page.tsx` (`/my-clubs`)
+- Club dashboard: `app/my-clubs/[id]/dashboard/page.tsx` (`/my-clubs/[id]/dashboard`)
+- Club members: `app/my-clubs/[id]/members/page.tsx` (`/my-clubs/[id]/members`)
+- Club library: `app/my-clubs/[id]/library/page.tsx` (`/my-clubs/[id]/library`)
+- Book detail inside club: `app/my-clubs/[id]/[bookId]/page.tsx` (`/my-clubs/[id]/[bookId]`)
+- Club meetings: `app/my-clubs/[id]/meetings/page.tsx` (`/my-clubs/[id]/meetings`)
+- User profile: `app/profile/[userId]/page.tsx` (`/profile/[userId]`)
 
-- Club Meetings: app/my-club/[id]/meetings
-- List of my-clubs: app/my-clubs
-- Explore clubs: app/explore
-- Landing: app
-- Login: app/login
-- Register: app/register
-- Create club: app/create-club
-- Club Settings: app/my-club/[id]/settings
+## Pending Routes
+- Explore clubs: `app/explore/page.tsx` (`/explore`)
+- Register (if kept as a separate route from `/create-acount`): `app/register/page.tsx` (`/register`)
+- Create club: `app/create-club/page.tsx` (`/create-club`)
+- Club settings: `app/my-clubs/[id]/settings/page.tsx` (`/my-clubs/[id]/settings`)
 
+## Tech Stack
+- Next.js 16.1.6
+- React 19.2.3
+- TypeScript
+- Tailwind CSS
 
-# Tech Stack And desing
+## UI System (Bauhaus-inspired)
+Design direction: minimal, geometric, high contrast, editorial spacing.
 
-We are using nextjs 16.1.6, react: 19.2.3 tailwindcss, typescript for the frontend.
+Color tokens (canonical):
+- bg: #F2F0EA
+- paper: #FAF8F3
+- ink: #111111
+- muted: #4E4E4E
+- accent: #C1121F
+- line: #111111
 
+## UX and Navigation Flow
+- Default entry is the landing page (`/`).
+- Main navigation leads to My Clubs, Explore, and authentication routes.
+- Unauthenticated users can access Login and Create Account.
+- Authenticated users can access profile and club workspaces.
+- Club workspace flow centers on dashboard, members, library, meetings, and book detail.
 
-## UI desing
-we are searching a minimal app based in the style of the bauhause convention. With geometric figures, ligth color
+## Frontend Architecture Rules
+- Keep route naming aligned with existing project paths unless a typo is explicit and confirmed.
+- Typo normalization applied: use `dashboard` (not `dasboard`).
+- For any UI change in `app/` or `components/`, load and follow the `frontend-design` skill.
+- For reusable React components, load and follow the `ateneo-react-components` skill.
+- Build pages from composable, reusable components; avoid page-specific duplication when a shared component is viable.
 
- - bg: #F2F0EA;
- - paper: #FAF8F3;
- - ink: #111111;
- - muted: #4e4e4e;
- - accent: #c1121f;
- - line: #111111;
+## Requirement File Contract (`requirements/x-requirement.md` template)
+```md
+# Requirement: <short-name>
 
-# User flow
-A user will always land on the landing page, from there he will be able to navigate throw the navBar we hace, he will be able to go to the next pages:
-- My Clubs
-- Explore clubs
-- Login (if he hasn't loged in yet)
-- Create acount (if he hasn't created and acount)
-- To his profile (if he is already loged in)
+## Goal
+<What user-facing outcome must be delivered>
 
-The user will be able to create a club, visit a club, add books to his club to read, and other actions.
+## Route
+<Target route path, e.g. /my-clubs/[id]/settings>
 
-# How are we going to workl
-I will write a requiremet, and based on the requirement, yo will create the user interface based in the other interfaces that we have done.
+## UI Scope
+- New components: <list>
+- Reused components: <list>
+- States: <empty/loading/error/populated>
 
-When, requirements will alway be in the directory `requirements/x-requirement.md`
-In this x-requirement.md you will find what page are we going to build and what components should whe create or use. I like a lot to program lots of componentes, i also like a lot animations to make the user experience more likable. 
+## Interaction Notes
+- <navigation and key user actions>
 
+## Visual Notes
+- <layout, hierarchy, animation constraints>
+
+## Acceptance Criteria
+- [ ] Route renders correctly on desktop and mobile
+- [ ] Matches Bauhaus-inspired token system
+- [ ] Covers required states and interactions
+```
+
+## Definition of Done (UI task checklist)
+- [ ] Requirement file exists and is complete under `requirements/`.
+- [ ] Route/page is implemented with responsive behavior (desktop + mobile).
+- [ ] UI uses the canonical color tokens and project visual language.
+- [ ] Components are reusable where appropriate and follow project conventions.
+- [ ] Navigation flow and main interactions are implemented and testable manually.
+- [ ] No obvious typos in route names, labels, or headings.
+
+## Working Agreement
+- Work starts from a requirement file (`requirements/x-requirement.md`).
+- UI is implemented based on existing project patterns and this context.
+- Prefer reusable components and coherent interaction patterns over one-off implementations.
+- Keep scope frontend-only unless backend integration is explicitly requested.
 
