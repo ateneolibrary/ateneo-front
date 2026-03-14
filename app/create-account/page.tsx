@@ -1,12 +1,23 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 
-export default function CreateAcountPage() {
+type CreateAccountPageProps = {
+  searchParams?: {
+    origin?: string | string[];
+  };
+};
+
+export default function CreateAccountPage({ searchParams }: CreateAccountPageProps) {
+  const source = searchParams?.origin;
+  const origin = Array.isArray(source) ? source[0] : source;
+  const cameFromLanding = Boolean(origin?.startsWith("landing-"));
+
   return (
     <div className={styles.page}>
       <main className={styles.card}>
         <h1 className={styles.title}>Crear cuenta</h1>
         <p className={styles.text}>Completa tus datos para unirte a Ateneo.</p>
+        {cameFromLanding ? <p className={styles.originTag}>Llegaste desde la landing de captacion.</p> : null}
 
         <div className={styles.grid}>
           <div className={styles.field}>

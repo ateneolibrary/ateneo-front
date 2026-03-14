@@ -7,6 +7,14 @@
   backdrop-filter: blur(8px);
 }
 
+.headerMarketing {
+  background: linear-gradient(180deg, #faf8f3 0%, #f2ede3 100%);
+}
+
+.headerAuth {
+  background: #f7f4ed;
+}
+
 .inner {
   max-width: 1180px;
   margin: 0 auto;
@@ -62,6 +70,21 @@
   overflow: hidden;
   display: inline-grid;
   place-items: center;
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.22);
+  transform: translateY(0);
+  transition: transform 160ms ease, box-shadow 160ms ease;
+}
+
+.linkPrimary {
+  background: var(--accent);
+}
+
+.linkPrimary .linkText {
+  color: #fff;
+}
+
+.linkSecondary {
+  background: var(--paper);
 }
 
 .link::before {
@@ -91,8 +114,14 @@
   transform: translateY(135%);
 }
 
+.linkPrimary .linkTextHover {
+  color: #fff;
+}
+
 .link:hover {
   color: inherit;
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.22);
 }
 
 .link:hover::before,
@@ -111,8 +140,27 @@
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--line);
+  outline: 3px solid var(--line);
   outline-offset: 2px;
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.22);
+}
+
+.link:active {
+  transform: translateY(2px);
+  box-shadow: 0 0 0 rgba(17, 17, 17, 0.22);
+}
+
+.marketingMainAction {
+  order: 3;
+}
+
+.marketingSecondaryAction {
+  order: 4;
+}
+
+.marketingHomeLink {
+  order: 2;
 }
 
 .profileAvatarLink {
@@ -158,5 +206,23 @@
   .profileAvatarLink {
     width: 46px;
     height: 46px;
+  }
+
+  .headerMarketing .inner {
+    gap: 8px;
+  }
+
+  .headerMarketing .nav {
+    gap: 6px;
+    margin-left: auto;
+  }
+
+  .headerMarketing .marketingHomeLink,
+  .headerMarketing .marketingSecondaryAction {
+    display: none;
+  }
+
+  .headerMarketing .marketingMainAction {
+    min-width: 132px;
   }
 }

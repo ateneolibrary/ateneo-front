@@ -6,24 +6,44 @@ import { usePathname } from "next/navigation";
 import { mockUsers } from "./data";
 import styles from "./AppHeader.module.css";
 
+type HeaderVariant = "marketing" | "auth" | "app";
+
+const resolveHeaderVariant = (pathname: string): HeaderVariant => {
+  if (pathname === "/") {
+    return "marketing";
+  }
+
+  if (pathname === "/login" || pathname === "/create-account") {
+    return "auth";
+  }
+
+  return "app";
+};
+
 export default function AppHeader() {
   const pathname = usePathname();
+  const variant = resolveHeaderVariant(pathname);
   const currentUser = mockUsers[0];
-  const isAuthRoute = pathname === "/login" || pathname === "/create-acount";
-  const isLoggedIn = !isAuthRoute;
+  const isMarketing = variant === "marketing";
+  const isAuth = variant === "auth";
+  const isApp = variant === "app";
 
-  const navItems = [
-    { href: "/", label: "Inicio" },
-    { href: "/my-clubs", label: "MisClubs" },
+  const appItems = [{ href: "/my-clubs", label: "Mis clubes" }];
+
+  const marketingActions = [
+    { href: "/create-account", label: "Crear cuenta", tone: "primary" },
+    { href: "/login", label: "Entrar", tone: "secondary" },
   ];
 
-  const authItems = [
-    { href: "/login", label: "Entrar" },
-    { href: "/create-acount", label: "Crear cuenta" },
-  ];
+  const authActions =
+    pathname === "/login"
+      ? [{ href: "/create-account", label: "Crear cuenta", tone: "primary" }]
+      : [{ href: "/login", label: "Entrar", tone: "secondary" }];
 
   return (
-    <header className={styles.header}>
+    <header
+      className={`${styles.header} ${isMarketing ? styles.headerMarketing : ""} ${isAuth ? styles.headerAuth : ""}`}
+    >
       <div className={styles.inner}>
         <Link href="/" className={styles.brand} aria-label="Ateneo: ir al inicio">
           <span className={styles.brandLogoFrame}>
@@ -36,23 +56,46 @@ export default function AppHeader() {
             />
           </span>
         </Link>
-        <nav className={styles.nav}>
-          {navItems.map((item) => (
-            <Link key={item.href} href={item.href} className={styles.link}>
-              <span className={styles.linkText}>{item.label}</span>
-              <span className={styles.linkTextHover}>{item.label}</span>
-            </Link>
-          ))}
 
-          {!isLoggedIn &&
-            authItems.map((item) => (
+        <nav className={styles.nav} aria-label="Navegacion principal">
+          <Link href="/" className={`${styles.link} ${isMarketing ? styles.marketingHomeLink : ""}`}>
+            <span className={styles.linkText}>Inicio</span>
+            <span className={styles.linkTextHover}>Inicio</span>
+          </Link>
+
+          {isApp &&
+            appItems.map((item) => (
               <Link key={item.href} href={item.href} className={styles.link}>
                 <span className={styles.linkText}>{item.label}</span>
                 <span className={styles.linkTextHover}>{item.label}</span>
               </Link>
             ))}
 
-          {isLoggedIn && currentUser && (
+          {isMarketing &&
+            marketingActions.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${styles.link} ${item.tone === "primary" ? styles.linkPrimary : styles.linkSecondary} ${item.tone === "primary" ? styles.marketingMainAction : styles.marketingSecondaryAction}`}
+              >
+                <span className={styles.linkText}>{item.label}</span>
+                <span className={styles.linkTextHover}>{item.label}</span>
+              </Link>
+            ))}
+
+          {isAuth &&
+            authActions.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${styles.link} ${item.tone === "primary" ? styles.linkPrimary : styles.linkSecondary}`}
+              >
+                <span className={styles.linkText}>{item.label}</span>
+                <span className={styles.linkTextHover}>{item.label}</span>
+              </Link>
+            ))}
+
+          {isApp && currentUser && (
             <Link
               href={`/profile/${currentUser.id}`}
               className={styles.profileAvatarLink}

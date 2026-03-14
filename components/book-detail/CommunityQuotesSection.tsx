@@ -49,9 +49,10 @@ export default function CommunityQuotesSection({
     return pages;
   }, [filteredQuotes]);
 
-  useEffect(() => {
+  function handleSelectedMembersChange(nextSelectedMembers: string[]) {
+    setSelectedMembers(nextSelectedMembers);
     setActivePage(0);
-  }, [selectedMembers]);
+  }
 
   useEffect(() => {
     if (quotePages.length <= 1 || isAutoplayPaused) {
@@ -86,7 +87,7 @@ export default function CommunityQuotesSection({
           <MemberPicker
             items={memberOptions}
             selectedIds={selectedMembers}
-            onChange={setSelectedMembers}
+            onChange={handleSelectedMembersChange}
           />
         </div>
       </div>
