@@ -5,163 +5,340 @@
 }
 
 .main {
-  max-width: 1300px;
+  max-width: 1180px;
   margin: 0 auto;
-  padding: 30px 20px 72px;
+  padding: 28px 20px 72px;
   display: grid;
-  gap: 24px;
-}
-
-.searchBar {
-  display: grid;
-  grid-template-columns: 70px 1fr 138px;
-  border: 3px solid var(--line);
-  background: #f4f4f4;
-  min-height: 62px;
-}
-
-.searchIcon {
-  display: grid;
-  place-items: center;
-  border-right: 2px solid var(--line);
-  font-size: 1.35rem;
-  font-weight: 700;
-}
-
-.searchInput {
-  border: 0;
-  background: transparent;
-  outline: none;
-  font-size: 1rem;
-  padding: 0 16px;
-  color: #8a98ad;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
-}
-
-.searchInput::placeholder {
-  color: #8a98ad;
-}
-
-.searchButton {
-  border: 0;
-  border-left: 2px solid var(--line);
-  background: var(--accent);
-  color: #fff;
-  font-weight: 800;
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  cursor: pointer;
+  gap: 28px;
 }
 
 .hero {
-  display: grid;
-  grid-template-columns: 1.2fr 0.56fr;
-  gap: 18px;
-  align-items: start;
-}
-
-.heroBox {
-  background: #f3f3f3;
   border: 3px solid var(--line);
-  padding: 34px 36px;
-  min-height: 560px;
+  background: linear-gradient(135deg, #faf8f3 0%, #efe7dc 100%);
+  padding: 24px 18px;
+  display: grid;
+  gap: 16px;
   position: relative;
+  overflow: hidden;
 }
 
-.badge {
+.hero::before,
+.hero::after {
+  content: "";
   position: absolute;
-  top: -16px;
-  left: -16px;
-  display: inline-flex;
+  pointer-events: none;
+}
+
+.hero::before {
+  width: 140px;
+  height: 140px;
+  right: -30px;
+  top: -32px;
   background: var(--accent);
-  color: #fff;
-  padding: 8px 14px;
-  font-size: 0.88rem;
-  font-weight: 800;
-  letter-spacing: 0.03em;
-  text-transform: uppercase;
+  transform: rotate(24deg);
+  opacity: 0.18;
 }
 
-.panel {
-  background: #f3f3f3;
+.hero::after {
+  width: 90px;
+  height: 90px;
+  left: -24px;
+  bottom: -24px;
   border: 3px solid var(--line);
-  min-height: 560px;
-  display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  background: rgba(250, 248, 243, 0.75);
+  transform: rotate(12deg);
 }
 
-.panelTitle {
+.kicker {
   margin: 0;
-  padding: 18px 18px 14px;
-  font-size: 1.35rem;
+  font-size: 0.76rem;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.title {
+  margin: 0;
+  max-width: 20ch;
+  font-size: clamp(2rem, 8vw, 3.2rem);
+  line-height: 0.98;
   text-transform: uppercase;
 }
 
-.mapPlaceholder {
-  min-height: 240px;
-  border-top: 2px solid var(--line);
-  border-bottom: 2px solid var(--line);
-  background: radial-gradient(circle at center, #f0dfdf 0%, #e6d3d3 70%, #dcc4c4 100%);
+.lead {
+  margin: 0;
+  max-width: 56ch;
+  font-size: 1.02rem;
+  color: #2a2a2a;
 }
 
-.locations {
-  margin: 0;
-  padding: 0 18px;
-  list-style: none;
+.heroActions,
+.closingActions {
   display: grid;
   gap: 10px;
 }
 
-.locations li {
-  display: grid;
-  gap: 4px;
-}
-
-.locations strong {
-  font-size: 0.9rem;
-  text-transform: uppercase;
-}
-
-.locations span {
-  font-size: 0.8rem;
-  color: #66758a;
-  text-transform: uppercase;
-}
-
-.directoryBtn {
-  margin: 14px 18px 18px;
+.primaryCta,
+.secondaryCta {
+  text-decoration: none;
   border: 3px solid var(--line);
+  min-height: 48px;
+  padding: 10px 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-weight: 800;
+  display: inline-grid;
+  place-items: center;
+}
+
+.primaryCta {
+  background: var(--accent);
+  color: #fff;
+}
+
+.secondaryCta {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.primaryCta:focus-visible,
+.secondaryCta:focus-visible {
+  outline: 3px solid var(--line);
+  outline-offset: 2px;
+}
+
+.heroSignals {
+  margin: 2px 0 0;
+  padding-left: 20px;
+  display: grid;
+  gap: 6px;
+  font-size: 0.92rem;
+  color: var(--muted);
+}
+
+.section,
+.bookSection,
+.closing {
+  border: 3px solid var(--line);
+  background: var(--paper);
+  padding: 20px 16px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: clamp(1.4rem, 6vw, 2rem);
+  line-height: 1.08;
+  text-transform: uppercase;
+}
+
+.benefitsGrid {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.benefitCard {
+  border: 2px solid var(--line);
+  background: #f8f5ef;
+  padding: 14px;
+  display: grid;
+  gap: 8px;
+}
+
+.benefitCard h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  text-transform: uppercase;
+}
+
+.benefitCard p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.stepsList {
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+  display: grid;
+  gap: 10px;
+  counter-reset: steps;
+}
+
+.stepsList li {
+  counter-increment: steps;
+  border: 2px solid var(--line);
+  background: #f8f5ef;
+  padding: 10px 12px 10px 56px;
+  position: relative;
+}
+
+.stepsList li::before {
+  content: counter(steps);
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 30px;
+  height: 30px;
+  border: 2px solid var(--line);
+  background: var(--accent);
+  color: #fff;
+  display: grid;
+  place-items: center;
+  font-size: 0.88rem;
+  font-weight: 800;
+}
+
+.testimonials {
+  display: grid;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.testimonialCard {
+  margin: 0;
+  border: 2px solid var(--line);
+  background: #fff;
+  padding: 14px;
+  display: grid;
+  gap: 10px;
+}
+
+.testimonialCard p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.testimonialCard cite {
+  font-style: normal;
+  font-weight: 800;
+  text-transform: uppercase;
+  font-size: 0.86rem;
+}
+
+.bookSection {
+  display: grid;
+  gap: 16px;
+  background: linear-gradient(180deg, #faf8f3 0%, #efeae0 100%);
+}
+
+.bookVisual {
+  border: 3px solid var(--line);
+  background: #f1ece2;
+  min-height: 320px;
+  display: grid;
+  place-items: center;
+  padding: 12px;
+}
+
+.bookNarrative {
+  display: grid;
+  gap: 10px;
+}
+
+.bookTag {
+  margin: 0;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  font-weight: 800;
+  color: var(--muted);
+}
+
+.bookNarrative p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.faqList {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.faqItem {
+  border: 2px solid var(--line);
   background: #fff;
   padding: 10px 12px;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  font-weight: 800;
-  cursor: pointer;
-  font-size: 0.78rem;
 }
 
-@media (max-width: 1100px) {
-  .searchBar {
-    grid-template-columns: 64px 1fr 130px;
-    min-height: 60px;
-  }
+.faqItem summary {
+  cursor: pointer;
+  text-transform: uppercase;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
 
-  .searchInput {
-    font-size: 1.1rem;
+
+.faqItem p {
+  margin: 10px 0 0;
+  color: var(--muted);
+}
+
+.closing {
+  display: grid;
+  gap: 12px;
+  background: #f5f0e5;
+}
+
+.closing p {
+  margin: 0;
+  color: var(--muted);
+}
+
+@media (min-width: 760px) {
+  .main {
+    gap: 32px;
   }
 
   .hero {
-    grid-template-columns: 1fr;
+    padding: 32px 26px;
   }
 
-  .heroBox,
-  .panel {
-    min-height: auto;
+  .heroActions,
+  .closingActions {
+    grid-template-columns: repeat(2, minmax(0, 220px));
   }
 
-  .heroBox {
-    padding: 30px 24px;
+  .benefitsGrid,
+  .testimonials {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .testimonials {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .bookSection {
+    grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+    align-items: center;
+    gap: 24px;
+    padding: 24px;
+  }
+
+  .bookVisual {
+    min-height: 380px;
+  }
+}
+
+@media (min-width: 1040px) {
+  .hero {
+    padding: 40px 36px;
+  }
+
+  .section,
+  .closing {
+    padding: 26px;
+  }
+
+  .bookSection {
+    padding: 28px;
+  }
+
+  .heroSignals {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    padding-left: 18px;
   }
 }

@@ -7,6 +7,14 @@
   backdrop-filter: blur(8px);
 }
 
+.headerMarketing {
+  background: linear-gradient(180deg, #faf8f3 0%, #f2ede3 100%);
+}
+
+.headerAuth {
+  background: #f7f4ed;
+}
+
 .inner {
   max-width: 1180px;
   margin: 0 auto;
@@ -64,11 +72,23 @@
   place-items: center;
 }
 
+.linkPrimary {
+  background: var(--accent);
+}
+
+.linkPrimary .linkText {
+  color: #fff;
+}
+
+.linkSecondary {
+  background: var(--paper);
+}
+
 .link::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: var(--accent);
+  background: #111;
   transform: translateY(105%);
   transition: transform 220ms ease;
   z-index: 0;
@@ -91,6 +111,10 @@
   transform: translateY(135%);
 }
 
+.linkPrimary .linkTextHover {
+  color: #fff;
+}
+
 .link:hover {
   color: inherit;
 }
@@ -111,7 +135,7 @@
 }
 
 .link:focus-visible {
-  outline: 2px solid var(--line);
+  outline: 3px solid var(--line);
   outline-offset: 2px;
 }
 

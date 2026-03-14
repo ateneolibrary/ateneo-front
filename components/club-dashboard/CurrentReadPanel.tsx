@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Image from "next/image";
 import type { ClubMock } from "@/components/mock-app";
 import styles from "./ClubDashboard.module.css";
@@ -29,6 +29,7 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
   const [showChangeModal, setShowChangeModal] = useState(false);
   const [switchPhase, setSwitchPhase] = useState<SwitchPhase>("idle");
   const [bookSwitched, setBookSwitched] = useState(false);
+  const finishAnimationTimeoutRef = useRef<number | null>(null);
 
   const availableBooks = useMemo<BookOption[]>(() => {
     const map = new Map<string, BookOption>();
@@ -55,36 +56,57 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
     return Array.from(map.values());
   }, [club]);
 
-  const [currentBook, setCurrentBook] = useState<BookOption>({
-    id: normalizeKey(club.book),
-    title: club.book,
-    author: club.author,
-    cover: club.bookCover,
-  });
+  const [selectedBook, setSelectedBook] = useState<{ baseBookId: string; id: string } | null>(null);
   const [pendingBookId, setPendingBookId] = useState<string>(normalizeKey(club.book));
+  const baseBookId = normalizeKey(club.book);
+  const currentBookId = selectedBook?.baseBookId === baseBookId ? selectedBook.id : baseBookId;
+  const currentBook = useMemo(() => {
+    const matchedBook = availableBooks.find((book) => book.id === currentBookId);
+    if (matchedBook) {
+      return matchedBook;
+    }
+
+    return {
+      id: baseBookId,
+      title: club.book,
+      author: club.author,
+      cover: club.bookCover,
+    };
+  }, [availableBooks, baseBookId, club.author, club.book, club.bookCover, currentBookId]);
   const quotes = [
     "Lectura actual centrada en análisis de personajes y narrativa.",
     "Debate semanal con foco en ritmo, símbolos y evolución del protagonista.",
   ];
 
   useEffect(() => {
-    setCurrentBook({
-      id: normalizeKey(club.book),
-      title: club.book,
-      author: club.author,
-      cover: club.bookCover,
-    });
-    setPendingBookId(normalizeKey(club.book));
-  }, [club]);
+    return () => {
+      if (finishAnimationTimeoutRef.current) {
+        window.clearTimeout(finishAnimationTimeoutRef.current);
+      }
+    };
+  }, []);
 
-  useEffect(() => {
-    if (!showFinishModal) {
-      setAnimationDone(false);
-      return;
+  function openFinishModal() {
+    if (finishAnimationTimeoutRef.current) {
+      window.clearTimeout(finishAnimationTimeoutRef.current);
     }
-    const timer = setTimeout(() => setAnimationDone(true), 2650);
-    return () => clearTimeout(timer);
-  }, [showFinishModal]);
+
+    setAnimationDone(false);
+    setShowFinishModal(true);
+    finishAnimationTimeoutRef.current = window.setTimeout(() => {
+      setAnimationDone(true);
+    }, 2650);
+  }
+
+  function closeFinishModal() {
+    if (finishAnimationTimeoutRef.current) {
+      window.clearTimeout(finishAnimationTimeoutRef.current);
+      finishAnimationTimeoutRef.current = null;
+    }
+
+    setShowFinishModal(false);
+    setAnimationDone(false);
+  }
 
   function openChangeBookModal() {
     setPendingBookId(currentBook.id);
@@ -107,7 +129,10 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
     setSwitchPhase("exit");
 
     window.setTimeout(() => {
-      setCurrentBook(selected);
+      setSelectedBook({
+        baseBookId,
+        id: selected.id,
+      });
       setSwitchPhase("enter");
       setBookSwitched(true);
 
@@ -164,7 +189,7 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
                   <button
                     type="button"
                     className={`${styles.btn} ${styles.btnPrimary}`}
-                    onClick={() => setShowFinishModal(true)}
+                    onClick={openFinishModal}
                   >
                     Finalizar lectura
                   </button>
@@ -230,19 +255,19 @@ export default function CurrentReadPanel({ club }: CurrentReadPanelProps) {
               </div>
             </div>
             <div className={styles.finishActions}>
-              <button type="button" className={styles.modalBtn} onClick={() => setShowFinishModal(false)}>
+              <button type="button" className={styles.modalBtn} onClick={closeFinishModal}>
                 Cerrar
               </button>
               <button
                 type="button"
                 className={`${styles.modalBtn} ${styles.modalBtnPrimary}`}
                 disabled={!animationDone}
-                onClick={() => {
-                  if (!animationDone) return;
-                  setSurveyEnabled(true);
-                  setShowFinishModal(false);
-                }}
-              >
+                  onClick={() => {
+                    if (!animationDone) return;
+                    setSurveyEnabled(true);
+                    closeFinishModal();
+                  }}
+                >
                 Lanzar votación
               </button>
             </div>

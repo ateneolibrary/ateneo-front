@@ -1,12 +1,23 @@
 import Link from "next/link";
 import styles from "./page.module.css";
 
-export default function LoginPage() {
+type LoginPageProps = {
+  searchParams?: {
+    origin?: string | string[];
+  };
+};
+
+export default function LoginPage({ searchParams }: LoginPageProps) {
+  const source = searchParams?.origin;
+  const origin = Array.isArray(source) ? source[0] : source;
+  const cameFromLanding = Boolean(origin?.startsWith("landing-"));
+
   return (
     <div className={styles.page}>
       <main className={styles.card}>
         <h1 className={styles.title}>Entrar</h1>
         <p className={styles.text}>Accede para gestionar tus clubs y sesiones de lectura.</p>
+        {cameFromLanding ? <p className={styles.originTag}>Llegaste desde la landing de captacion.</p> : null}
 
         <div className={styles.field}>
           <label htmlFor="email">Email</label>
@@ -22,7 +33,7 @@ export default function LoginPage() {
 
         <div className={styles.links}>
           <Link className={styles.link} href="/my-clubs">Ir a MisClubs</Link>
-          <Link className={styles.link} href="/create-acount">Crear cuenta</Link>
+          <Link className={styles.link} href="/create-account">Crear cuenta</Link>
         </div>
       </main>
     </div>

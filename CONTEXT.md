@@ -11,7 +11,7 @@ Ateneo is a web product for managing book clubs in Spain. The current phase focu
 ## Implemented Routes
 - Landing: `app/page.tsx` (`/`)
 - Login: `app/login/page.tsx` (`/login`)
-- Create account: `app/create-acount/page.tsx` (`/create-acount`)
+- Create account: `app/create-account/page.tsx` (`/create-account`)
 - My clubs list: `app/my-clubs/page.tsx` (`/my-clubs`)
 - Club dashboard: `app/my-clubs/[id]/dashboard/page.tsx` (`/my-clubs/[id]/dashboard`)
 - Club members: `app/my-clubs/[id]/members/page.tsx` (`/my-clubs/[id]/members`)
@@ -22,7 +22,7 @@ Ateneo is a web product for managing book clubs in Spain. The current phase focu
 
 ## Pending Routes
 - Explore clubs: `app/explore/page.tsx` (`/explore`)
-- Register (if kept as a separate route from `/create-acount`): `app/register/page.tsx` (`/register`)
+- Register (if kept as a separate route from `/create-account`): `app/register/page.tsx` (`/register`)
 - Create club: `app/create-club/page.tsx` (`/create-club`)
 - Club settings: `app/my-clubs/[id]/settings/page.tsx` (`/my-clubs/[id]/settings`)
 
@@ -97,4 +97,3 @@ Color tokens (canonical):
 - UI is implemented based on existing project patterns and this context.
 - Prefer reusable components and coherent interaction patterns over one-off implementations.
 - Keep scope frontend-only unless backend integration is explicitly requested.
-
