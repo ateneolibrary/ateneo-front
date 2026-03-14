@@ -1,0 +1,117 @@
+.sticky {
+  position: fixed;
+  left: 12px;
+  right: 12px;
+  bottom: calc(12px + env(safe-area-inset-bottom));
+  border: 3px solid var(--line);
+  background: color-mix(in srgb, var(--paper) 94%, #ffffff 6%);
+  box-shadow: 4px 4px 0 rgba(17, 17, 17, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  z-index: 20;
+  transition: transform 220ms ease, opacity 220ms ease;
+}
+
+.sticky[data-visible="false"] {
+  opacity: 0;
+  transform: translateY(18px);
+  pointer-events: none;
+}
+
+.sticky[data-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.copy {
+  margin: 0;
+  flex: 1;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: 800;
+}
+
+.primary,
+.secondary,
+.toggle {
+  min-height: 44px;
+  border: 2px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  transition: background-color 140ms ease, color 140ms ease, transform 140ms ease, box-shadow 140ms ease;
+}
+
+.primary {
+  background: var(--accent);
+  color: #fff;
+  box-shadow: 3px 3px 0 rgba(17, 17, 17, 0.18);
+}
+
+.secondary,
+.toggle {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.toggle {
+  cursor: pointer;
+}
+
+.primary:hover,
+.primary:focus-visible,
+.secondary:hover,
+.secondary:focus-visible,
+.toggle:hover,
+.toggle:focus-visible {
+  transform: translateY(1px);
+  box-shadow: 1px 1px 0 rgba(17, 17, 17, 0.18);
+  background: var(--accent);
+  color: #fff;
+}
+
+.primary:active,
+.secondary:active,
+.toggle:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+.sticky[data-minimized="true"] .copy,
+.sticky[data-minimized="true"] .secondary {
+  display: none;
+}
+
+@media (min-width: 760px) {
+  .sticky {
+    left: auto;
+    right: 20px;
+    bottom: 18px;
+    width: min(580px, calc(100vw - 40px));
+  }
+
+  .copy {
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sticky {
+    transition: none;
+  }
+
+  .primary,
+  .secondary,
+  .toggle {
+    transition: none;
+  }
+}

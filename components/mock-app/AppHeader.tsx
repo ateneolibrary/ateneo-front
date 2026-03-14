@@ -28,7 +28,7 @@ export default function AppHeader() {
   const isAuth = variant === "auth";
   const isApp = variant === "app";
 
-  const appItems = [{ href: "/my-clubs", label: "MisClubs" }];
+  const appItems = [{ href: "/my-clubs", label: "Mis clubes" }];
 
   const marketingActions = [
     { href: "/create-account", label: "Crear cuenta", tone: "primary" },
@@ -58,7 +58,7 @@ export default function AppHeader() {
         </Link>
 
         <nav className={styles.nav} aria-label="Navegacion principal">
-          <Link href="/" className={styles.link}>
+          <Link href="/" className={`${styles.link} ${isMarketing ? styles.marketingHomeLink : ""}`}>
             <span className={styles.linkText}>Inicio</span>
             <span className={styles.linkTextHover}>Inicio</span>
           </Link>
@@ -76,7 +76,7 @@ export default function AppHeader() {
               <Link
                 key={item.href}
                 href={item.href}
-                className={`${styles.link} ${item.tone === "primary" ? styles.linkPrimary : styles.linkSecondary}`}
+                className={`${styles.link} ${item.tone === "primary" ? styles.linkPrimary : styles.linkSecondary} ${item.tone === "primary" ? styles.marketingMainAction : styles.marketingSecondaryAction}`}
               >
                 <span className={styles.linkText}>{item.label}</span>
                 <span className={styles.linkTextHover}>{item.label}</span>
