@@ -1,0 +1,55 @@
+.page {
+  min-height: calc(100vh - 79px);
+}
+
+.main {
+  max-width: 860px;
+  margin: 0 auto;
+  padding: 36px 16px;
+}
+
+.card {
+  background: var(--paper);
+  border: 3px solid var(--line);
+  box-shadow: 8px 8px 0 var(--line);
+  padding: 24px;
+}
+
+.badge {
+  margin: 0;
+  display: inline-flex;
+  padding: 4px 9px;
+  border: 2px solid var(--line);
+  background: #fff;
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+}
+
+.card h1 {
+  margin: 10px 0 8px;
+  font-size: clamp(1.5rem, 4vw, 2.2rem);
+  text-transform: uppercase;
+}
+
+.card p {
+  margin: 0;
+  color: var(--muted);
+  max-width: 60ch;
+}
+
+.cta {
+  margin-top: 18px;
+  display: inline-flex;
+  text-decoration: none;
+  border: 2px solid var(--line);
+  background: var(--accent);
+  color: #fff;
+  padding: 10px 12px;
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}

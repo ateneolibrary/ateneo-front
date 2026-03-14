@@ -1,0 +1,366 @@
+.formCard {
+  width: min(760px, 100%);
+  margin: 0 auto;
+  border: 3px solid var(--line);
+  background: linear-gradient(180deg, var(--paper) 0%, #f6f3ec 100%);
+  box-shadow: 8px 8px 0 var(--line);
+  padding: clamp(18px, 2.5vw, 28px);
+}
+
+.formHeader {
+  border-bottom: 2px solid var(--line);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+}
+
+.eyebrow {
+  margin: 0;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.title {
+  margin: 6px 0 0;
+  font-size: clamp(1.8rem, 4vw, 2.5rem);
+  letter-spacing: -0.03em;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  margin: 10px 0 0;
+  font-size: 0.96rem;
+  color: var(--muted);
+  max-width: 62ch;
+}
+
+.fieldset {
+  margin: 0;
+  border: none;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+}
+
+.fieldset:disabled {
+  opacity: 0.75;
+}
+
+.section {
+  border: 2px solid var(--line);
+  background: #fffdf8;
+  padding: 14px;
+  display: grid;
+  gap: 12px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 0.84rem;
+  font-weight: 800;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+}
+
+.sectionHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.counter {
+  border: 1.5px solid var(--line);
+  padding: 2px 8px;
+  font-size: 0.74rem;
+  font-weight: 700;
+  color: var(--muted);
+  background: #fff;
+}
+
+.label,
+.labelAsText {
+  margin: 0;
+  font-size: 0.73rem;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.input,
+.textarea,
+.select {
+  width: 100%;
+  border: none;
+  border-bottom: 2px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 1.02rem;
+  padding: 8px 0;
+  outline: none;
+  border-radius: 0;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 92px;
+}
+
+.input:focus,
+.textarea:focus,
+.select:focus {
+  border-bottom: 3px solid var(--accent);
+}
+
+.inputError {
+  border-bottom-color: var(--accent);
+}
+
+.errorText {
+  margin: -3px 0 0;
+  font-size: 0.82rem;
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.categoriesGrid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.categoryChip {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 7px 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.12s ease-out;
+}
+
+.categoryChip:hover {
+  transform: translate(-1px, -1px);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.categoryChipActive {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--line);
+}
+
+.categoryChip:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.segmentedBlock {
+  display: grid;
+  gap: 8px;
+}
+
+.segmentedControl {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.segmentedButton {
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 9px 10px;
+  font-size: 0.79rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  box-shadow: 3px 3px 0 var(--line);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.12s ease-out;
+}
+
+.segmentedButton:hover {
+  transform: translate(1px, 1px);
+  box-shadow: 2px 2px 0 var(--line);
+}
+
+.segmentedButtonActive {
+  background: var(--accent);
+  color: #fff;
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--line);
+}
+
+.toggleRow {
+  border: 1.5px solid var(--line);
+  background: #fff;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  font-size: 0.9rem;
+}
+
+.toggleButton {
+  position: relative;
+  width: 56px;
+  height: 30px;
+  border: 2px solid var(--line);
+  background: var(--bg);
+  padding: 0;
+  cursor: pointer;
+}
+
+.toggleButtonOn {
+  background: var(--accent);
+}
+
+.toggleThumb {
+  position: absolute;
+  width: 22px;
+  height: 22px;
+  top: 2px;
+  left: 2px;
+  background: #fff;
+  border: 1.5px solid var(--line);
+  transition: transform 0.14s ease-out;
+}
+
+.toggleButtonOn .toggleThumb {
+  transform: translateX(24px);
+}
+
+.lockedRow {
+  border: 2px dashed var(--line);
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+}
+
+.lockedInfo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.lockIcon {
+  width: 22px;
+  height: 22px;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+
+.lockedLabel {
+  margin: 0;
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.lockedHint {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.8rem;
+}
+
+.lockedValue {
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.proNote {
+  margin: 0;
+  border-left: 4px solid var(--accent);
+  background: #fff2f1;
+  padding: 10px;
+  font-size: 0.85rem;
+}
+
+.submitErrorBox {
+  border: 2px solid var(--accent);
+  background: #fff2f1;
+  padding: 10px 12px;
+}
+
+.submitErrorTitle {
+  margin: 0;
+  font-size: 0.86rem;
+  font-weight: 800;
+}
+
+.submitErrorList {
+  margin: 8px 0 0;
+  padding-left: 18px;
+  display: grid;
+  gap: 5px;
+  font-size: 0.82rem;
+}
+
+.submitButton {
+  width: 100%;
+  border: 2px solid var(--line);
+  background: var(--paper);
+  color: var(--ink);
+  padding: 13px;
+  font-size: 0.86rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  box-shadow: 4px 4px 0 var(--line);
+  transition: transform 0.12s ease-out, box-shadow 0.12s ease-out, background 0.12s ease-out;
+}
+
+.submitButton:hover:not(:disabled) {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0 var(--line);
+  background: var(--accent);
+  color: #fff;
+}
+
+.submitButton:disabled {
+  cursor: progress;
+  opacity: 0.7;
+}
+
+.input:focus-visible,
+.textarea:focus-visible,
+.select:focus-visible,
+.categoryChip:focus-visible,
+.segmentedButton:focus-visible,
+.toggleButton:focus-visible,
+.submitButton:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+@media (max-width: 720px) {
+  .formCard {
+    box-shadow: none;
+    border-width: 2px;
+    padding: 16px;
+  }
+
+  .section {
+    padding: 12px;
+  }
+
+  .segmentedControl {
+    grid-template-columns: 1fr;
+  }
+}

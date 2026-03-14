@@ -1,0 +1,13 @@
+.page {
+  min-height: calc(100vh - 79px);
+  background:
+    radial-gradient(circle at 10% 20%, #ece7dd 0, transparent 38%),
+    radial-gradient(circle at 90% 12%, #f8d7d9 0, transparent 30%),
+    var(--bg);
+}
+
+.main {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 36px) 16px 48px;
+}
