@@ -118,6 +118,19 @@
   color: #fff;
 }
 
+.linkActive {
+  background: var(--accent);
+}
+
+.linkActive .linkText,
+.linkActive .linkTextHover {
+  color: #fff;
+}
+
+.linkActive::before {
+  transform: translateY(0);
+}
+
 .link:hover {
   color: inherit;
   transform: translateY(1px);

@@ -28,10 +28,14 @@ export default function AppHeader() {
   const isAuth = variant === "auth";
   const isApp = variant === "app";
 
-  const appItems = [{ href: "/my-clubs", label: "Mis clubes" }];
+  const appItems = [
+    { href: "/my-clubs", label: "Mis clubes" },
+    { href: "/explore", label: "Explorar" },
+  ];
 
   const marketingActions = [
     { href: "/create-account", label: "Crear cuenta", tone: "primary" },
+    { href: "/explore", label: "Explorar", tone: "secondary" },
     { href: "/login", label: "Entrar", tone: "secondary" },
   ];
 
@@ -65,7 +69,12 @@ export default function AppHeader() {
 
           {isApp &&
             appItems.map((item) => (
-              <Link key={item.href} href={item.href} className={styles.link}>
+              <Link
+                key={item.href}
+                href={item.href}
+                className={`${styles.link} ${pathname === item.href ? styles.linkActive : ""}`}
+                aria-current={pathname === item.href ? "page" : undefined}
+              >
                 <span className={styles.linkText}>{item.label}</span>
                 <span className={styles.linkTextHover}>{item.label}</span>
               </Link>

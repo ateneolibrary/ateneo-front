@@ -107,3 +107,43 @@ export type ClubMock = {
     votes: number;
   }>;
 };
+
+export type ExploreViewerMode = "authenticated" | "guest";
+
+export type ExploreClub = {
+  id: string;
+  name: string;
+  mode: "Presencial" | "Online";
+  currentBook: string;
+  bookCover: string;
+  currentAuthor: string;
+  members: number;
+  maxMembers: number;
+  city: string;
+  address: string;
+  distanceKm: number;
+  categories: string[];
+  createdAt: string;
+  nextSession: string;
+  description: string;
+};
+
+export type ExploreLibrary = {
+  id: string;
+  name: string;
+  address: string;
+  phone: string;
+  distanceKm: number;
+  geo: {
+    lat: number;
+    lng: number;
+  };
+};
+
+export type ExploreLibraryMetricEvent = {
+  id: string;
+  libraryId: string;
+  viewerMode: ExploreViewerMode;
+  source: "list-item" | "map-pin";
+  createdAt: string;
+};
