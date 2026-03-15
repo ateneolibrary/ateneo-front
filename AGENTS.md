@@ -14,6 +14,8 @@
 - For UI work in `app/` or `components/`, load both:
   - `ateneo-react-components`
   - `frontend-design`
+- For Next.js coding work, load `next-best-practices` from `.opencode/skills/next-best-practices/`.
+- For new PRD documents, load `prd-generator` from `.opencode/skills/prd-generator/`.
 - Keep the current Ateneo visual language: editorial/Bauhaus-inspired, strong geometry, red/ink/paper palette.
 
 ## Commands
