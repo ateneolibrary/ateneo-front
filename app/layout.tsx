@@ -1,10 +1,7 @@
 import type { Metadata } from "next";
-import { Archivo_Black, Space_Grotesk, Geist } from "next/font/google";
+import { Archivo_Black, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import { AppHeader } from "@/components/mock-app";
-import { cn } from "@/lib/utils";
-
-const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 const spaceGrotesk = Space_Grotesk({
   variable: "--font-space-grotesk",
@@ -55,7 +52,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es" className={cn("font-sans", geist.variable)}>
+    <html lang="es" className="font-sans">
       <body className={`${spaceGrotesk.variable} ${archivoBlack.variable}`}>
         <AppHeader />
         {children}
