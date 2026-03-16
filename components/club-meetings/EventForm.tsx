@@ -1,9 +1,10 @@
 "use client";
 
 import { useState } from "react";
-import type { ClubMeeting } from "@/components/mock-app";
-import styles from "./ClubMeetings.module.css";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { DatePicker, TimePicker, DurationPicker } from "@/components/ui";
+import type { ClubMeeting } from "@/components/mock-app";
 
 type EventFormProps = {
   defaultDate?: string | null;
@@ -25,13 +26,12 @@ export default function EventForm({ defaultDate, onCreate }: EventFormProps) {
 
   const handleModalityChange = (target: Modality) => {
     if (modalidad === target) return;
-    
-    // LTR transitions: Online -> Presencial || Presencial -> Ambos || Ambos -> Online
-    const isLTR = 
+
+    const isLTR =
       (modalidad === "online" && target === "presencial") ||
       (modalidad === "presencial" && target === "ambos") ||
       (modalidad === "ambos" && target === "online");
-      
+
     setModDir(isLTR ? "ltr" : "rtl");
     setModalidad(target);
   };
@@ -58,12 +58,11 @@ export default function EventForm({ defaultDate, onCreate }: EventFormProps) {
   }
 
   return (
-    <form className={styles.form} onSubmit={handleSubmit}>
-      <div className={styles.fieldGroup}>
-        <input
+    <form className="grid gap-3" onSubmit={handleSubmit}>
+      <div>
+        <Input
           id="evento-titulo"
-          className={styles.input}
-          style={{ fontSize: "1.4rem", fontWeight: 700 }}
+          className="h-10 rounded-none border-2 border-border text-lg font-bold"
           type="text"
           placeholder="Nombre de la reunión..."
           value={titulo}
@@ -72,38 +71,41 @@ export default function EventForm({ defaultDate, onCreate }: EventFormProps) {
         />
       </div>
 
-      <div className={styles.fieldGroup} style={{ zIndex: 30 }}>
+      <div style={{ zIndex: 30 }}>
         <DatePicker value={fecha} onChange={setFecha} />
       </div>
 
-      <div className={styles.fieldGroup} style={{ zIndex: 20 }}>
+      <div style={{ zIndex: 20 }}>
         <TimePicker value={hora} onChange={setHora} />
       </div>
 
-      <div className={styles.fieldGroup} style={{ zIndex: 10 }}>
+      <div style={{ zIndex: 10 }}>
         <DurationPicker value={duracion} onChange={setDuracion} />
       </div>
 
-      <div className={styles.fieldGroup}>
-        <div className={styles.modalitySwitch}>
-          <button type="button" className={`${styles.modalityBtn} ${modalidad === "online" ? styles.active : ""}`} onClick={() => handleModalityChange("online")}>
-            <div className={styles.modalityBtnFill} data-active={modalidad === "online"} data-dir={modDir} />
-            <span className={styles.modalityBtnText}>Online</span>
-          </button>
-          <button type="button" className={`${styles.modalityBtn} ${modalidad === "presencial" ? styles.active : ""}`} onClick={() => handleModalityChange("presencial")}>
-            <div className={styles.modalityBtnFill} data-active={modalidad === "presencial"} data-dir={modDir} />
-            <span className={styles.modalityBtnText}>Presencial</span>
-          </button>
-          <button type="button" className={`${styles.modalityBtn} ${modalidad === "ambos" ? styles.active : ""}`} onClick={() => handleModalityChange("ambos")}>
-            <div className={styles.modalityBtnFill} data-active={modalidad === "ambos"} data-dir={modDir} />
-            <span className={styles.modalityBtnText}>Ambos</span>
-          </button>
+      <div className="grid gap-2">
+        <div className="grid grid-cols-3 gap-1 border-2 border-border bg-muted/30 p-1">
+          {MODALITIES.map((option) => (
+            <Button
+              key={option}
+              type="button"
+              variant={modalidad === option ? "default" : "outline"}
+              size="sm"
+              className="rounded-none border-2 border-border text-[0.68rem] font-black tracking-[0.08em] uppercase"
+              onClick={() => handleModalityChange(option)}
+            >
+              {option}
+            </Button>
+          ))}
         </div>
 
-        <div className={styles.locationInputWrapper}>
+        <div
+          className="grid gap-2"
+          data-direction={modDir}
+        >
           {(modalidad === "online" || modalidad === "ambos") && (
-            <input
-              className={styles.input}
+            <Input
+              className="h-9 rounded-none border-2 border-border"
               type="url"
               placeholder="Enlace de la videollamada (ej. Google Meet, Zoom)..."
               value={url}
@@ -113,14 +115,14 @@ export default function EventForm({ defaultDate, onCreate }: EventFormProps) {
 
           {(modalidad === "presencial" || modalidad === "ambos") && (
             <>
-              <input
-                className={styles.input}
+              <Input
+                className="h-9 rounded-none border-2 border-border"
                 type="text"
                 placeholder="Dirección del lugar..."
                 value={direccion}
                 onChange={(e) => setDireccion(e.target.value)}
               />
-              <div className={styles.mapPlaceholder}>
+              <div className="border-2 border-dashed border-border bg-muted/20 p-3 text-center text-xs font-semibold tracking-[0.05em] uppercase text-muted-foreground">
                 [ Mapa Interactivo - Próximamente ]
               </div>
             </>
@@ -128,9 +130,9 @@ export default function EventForm({ defaultDate, onCreate }: EventFormProps) {
         </div>
       </div>
 
-      <button type="submit" className={styles.submitBtn} style={{ marginTop: "1rem" }}>
+      <Button type="submit" className="mt-2 h-9 rounded-none border-2 border-border bg-primary px-4 text-[0.72rem] font-black tracking-[0.08em] uppercase">
         Crear reunión
-      </button>
+      </Button>
     </form>
   );
 }

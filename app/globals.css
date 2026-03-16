@@ -16,8 +16,13 @@
   --red-500: #ea435f;
   --red-600: #d7324e;
   --red-700: #ba1e3a;
-  --red-800: #8d1229;
+  --red-800: #ba1e3a;
   --red-900: #5e0918;
+  /* Semantic red scale: strongest emphasis, default interactive, subtle surfaces. */
+  --red-intense: var(--red-800);
+  --red-mid: var(--red-600);
+  --red-light: var(--red-500);
+  --red-intense-glow: color-mix(in srgb, var(--red-intense) 25%, transparent);
   --line: #000000;
   --radius: 0;
   --muted: var(--red-50);
@@ -28,13 +33,13 @@
   --popover-foreground: var(--ink);
   --border: #000000;
   --input: #000000;
-  --primary: var(--red-600);
-  --primary-hover: var(--red-700);
-  --active: var(--red-600);
+  --primary: var(--red-mid);
+  --primary-hover: var(--red-intense);
+  --active: var(--red-mid);
   --primary-foreground: #ffffff;
-  --secondary: var(--red-100);
+  --secondary: var(--red-light);
   --secondary-foreground: #280d13;
-  --accent: var(--red-200);
+  --accent: var(--red-light);
   --accent-foreground: #280d13;
   --destructive: oklch(0.577 0.245 27.325);
   --destructive-foreground: #FFFFFF;
@@ -74,7 +79,11 @@ body {
   line-height: 1.45;
 }
 
-.dark {
+:root.dark {
+  --red-intense: var(--red-200);
+  --red-mid: var(--red-300);
+  --red-light: color-mix(in srgb, var(--red-500) 28%, var(--background));
+  --red-intense-glow: color-mix(in srgb, var(--red-intense) 24%, transparent);
   --background: #120406;
   --foreground: #fff5f7;
   --muted: #2a0d13;
@@ -85,9 +94,9 @@ body {
   --popover-foreground: #fff5f7;
   --border: #000000;
   --input: #000000;
-  --primary: var(--red-300);
-  --primary-hover: var(--red-200);
-  --active: var(--red-400);
+  --primary: var(--red-mid);
+  --primary-hover: var(--red-intense);
+  --active: var(--red-mid);
   --primary-foreground: #280d13;
   --secondary: #2a0d13;
   --secondary-foreground: #fff1f3;
@@ -128,6 +137,10 @@ body {
   --color-chart-2: var(--chart-2);
   --color-chart-1: var(--chart-1);
   --color-ring: var(--ring);
+  --color-red-intense: var(--red-intense);
+  --color-red-mid: var(--red-mid);
+  --color-red-light: var(--red-light);
+  --color-red-intense-glow: var(--red-intense-glow);
   --color-input: var(--input);
   --color-border: var(--border);
   --color-destructive: var(--destructive);

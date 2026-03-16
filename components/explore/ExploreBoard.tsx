@@ -2,6 +2,9 @@
 
 import Image from "next/image";
 import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   createLibraryMetricEvent,
   exploreClubs,
@@ -178,15 +181,16 @@ function ClubSectionPagination({ sectionLabel, currentPage, totalPages, onPageCh
 
   return (
     <nav className={styles.pagination} aria-label={`Paginacion de ${sectionLabel}`}>
-      <button
+      <Button
         type="button"
+        variant="outline"
         className={styles.paginationArrow}
         onClick={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
         aria-label={`Pagina anterior de ${sectionLabel}`}
       >
         {"<"}
-      </button>
+      </Button>
 
       <div className={styles.pageControls}>
         {Array.from({ length: totalPages }, (_, index) => {
@@ -194,29 +198,31 @@ function ClubSectionPagination({ sectionLabel, currentPage, totalPages, onPageCh
           const isActive = page === currentPage;
 
           return (
-            <button
+            <Button
               key={`${sectionLabel}-page-${page}`}
               type="button"
+              variant={isActive ? "default" : "outline"}
               className={`${styles.pageButton} ${isActive ? styles.pageButtonActive : ""}`}
               aria-label={`Ir a pagina ${page} de ${sectionLabel}`}
               aria-current={isActive ? "page" : undefined}
               onClick={() => onPageChange(page)}
             >
               {page}
-            </button>
+            </Button>
           );
         })}
       </div>
 
-      <button
+      <Button
         type="button"
+        variant="outline"
         className={styles.paginationArrow}
         onClick={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
         aria-label={`Pagina siguiente de ${sectionLabel}`}
       >
         {">"}
-      </button>
+      </Button>
     </nav>
   );
 }
@@ -388,8 +394,9 @@ export function ExploreBoard() {
         >
           <section className={styles.resultsColumn} aria-label="Resultados de clubes">
             <div className={styles.resultsToolbar}>
-              <button
+              <Button
                 type="button"
+                variant={hasActiveFilters ? "default" : "outline"}
                 className={`${styles.filtersToggle} ${hasActiveFilters ? styles.filtersToggleActive : ""}`}
                 aria-pressed={isFiltersVisible}
                 aria-controls="explore-filters-panel"
@@ -399,10 +406,10 @@ export function ExploreBoard() {
               >
                 <FunnelIcon />
                 <span className={styles.srOnly}>{isFiltersVisible ? "Ocultar filtros" : "Mostrar filtros"}</span>
-              </button>
+              </Button>
             </div>
 
-            <article className={styles.listCard}>
+            <Card className={styles.listCard}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <SectionTag kind="inPerson" label="PRESENCIAL" />
@@ -510,9 +517,9 @@ export function ExploreBoard() {
                 totalPages={inPersonTotalPages}
                 onPageChange={(nextPage) => setInPersonCurrentPage(Math.min(Math.max(nextPage, 1), inPersonTotalPages))}
               />
-            </article>
+            </Card>
 
-            <article className={styles.listCard}>
+            <Card className={styles.listCard}>
               <div className={styles.sectionHeader}>
                 <h2>
                   <SectionTag kind="online" label="ONLINE" />
@@ -620,10 +627,10 @@ export function ExploreBoard() {
                 totalPages={onlineTotalPages}
                 onPageChange={(nextPage) => setOnlineCurrentPage(Math.min(Math.max(nextPage, 1), onlineTotalPages))}
               />
-            </article>
+            </Card>
 
             <section className={styles.librariesHub} aria-labelledby="libraries-title">
-              <article className={styles.librariesPanel}>
+              <Card className={styles.librariesPanel}>
                 <div className={styles.sectionHeader}>
                   <h2 id="libraries-title">
                     <SectionTag kind="libraries" label="LIBRERIAS CERCANAS" />
@@ -638,15 +645,16 @@ export function ExploreBoard() {
 
                       return (
                         <li key={library.id}>
-                          <button
+                          <Button
                             type="button"
+                            variant={isSelected ? "default" : "outline"}
                             className={`${styles.libraryButton} ${isSelected ? styles.libraryButtonActive : ""}`}
                             onClick={() => handleLibraryClick(library)}
                           >
                             <strong>{library.name}</strong>
                             <span>{library.address}</span>
                             <small>{library.distanceKm.toFixed(1)} km · {library.phone}</small>
-                          </button>
+                          </Button>
                         </li>
                       );
                     })}
@@ -678,9 +686,9 @@ export function ExploreBoard() {
                     </div>
                   </aside>
                 </div>
-              </article>
+              </Card>
 
-              <article className={styles.mapPrep} aria-labelledby="map-prep-title">
+              <Card className={styles.mapPrep} aria-labelledby="map-prep-title">
                 <div className={styles.sectionHeader}>
                   <h2 id="map-prep-title">
                     <SectionTag kind="map" label="MAPA (PROXIMAMENTE)" />
@@ -693,9 +701,10 @@ export function ExploreBoard() {
                     const isSelected = selectedLibrary?.id === library.id;
 
                     return (
-                      <button
+                      <Button
                         key={library.id}
                         type="button"
+                        variant={isSelected ? "default" : "outline"}
                         className={`${styles.mapPin} ${isSelected ? styles.mapPinActive : ""}`}
                         onClick={() => handleMapPinClick(library)}
                         style={{
@@ -705,7 +714,7 @@ export function ExploreBoard() {
                         aria-label={`Registrar evento map-pin para ${library.name}`}
                       >
                         {index + 1}
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
@@ -721,7 +730,7 @@ export function ExploreBoard() {
                     </li>
                   ))}
                 </ul>
-              </article>
+              </Card>
             </section>
           </section>
 
@@ -760,7 +769,7 @@ export function ExploreBoard() {
                 <span className={styles.searchIcon} aria-hidden="true">
                   ⌕
                 </span>
-                <input
+                <Input
                   id="club-name-query"
                   className={styles.searchInput}
                   type="text"
@@ -778,7 +787,7 @@ export function ExploreBoard() {
                 <span className={styles.searchIcon} aria-hidden="true">
                   ⌕
                 </span>
-                <input
+                <Input
                   id="book-query"
                   className={styles.searchInput}
                   type="text"
@@ -813,9 +822,10 @@ export function ExploreBoard() {
                     const isBlocked = selectedCategories.length >= MAX_SELECTED_CATEGORIES && !isActive;
 
                     return (
-                      <button
+                      <Button
                         key={category}
                         type="button"
+                        variant={isActive ? "default" : "outline"}
                         className={`${styles.categoryChip} ${isActive ? styles.categoryChipActive : ""}`}
                         onClick={() => {
                           handleCategoryToggle(category);
@@ -826,7 +836,7 @@ export function ExploreBoard() {
                         aria-pressed={isActive}
                       >
                         {category}
-                      </button>
+                      </Button>
                     );
                   })}
                 </div>
@@ -850,9 +860,10 @@ function ToggleRow({ id, label, checked, onToggle }: ToggleRowProps) {
   return (
     <div className={styles.toggleRow}>
       <span id={`${id}-label`}>{label}</span>
-      <button
+      <Button
         id={id}
         type="button"
+        variant="outline"
         className={`${styles.toggleButton} ${checked ? styles.toggleButtonOn : ""}`}
         onClick={() => onToggle(!checked)}
         role="switch"
@@ -860,7 +871,7 @@ function ToggleRow({ id, label, checked, onToggle }: ToggleRowProps) {
         aria-labelledby={`${id}-label`}
       >
         <span className={styles.toggleThumb} />
-      </button>
+      </Button>
     </div>
   );
 }

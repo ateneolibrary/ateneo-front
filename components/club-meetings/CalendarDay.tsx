@@ -1,5 +1,5 @@
 import type { ClubMeeting } from "@/components/mock-app";
-import styles from "./ClubMeetings.module.css";
+import { cn } from "@/lib/utils";
 
 type CalendarDayProps = {
   day: number;
@@ -14,29 +14,33 @@ export default function CalendarDay({ day, dateStr, isCurrentMonth, isToday, mee
   const today = new Date().toISOString().split("T")[0];
   const isPast = dateStr < today;
 
-  const classes = [
-    styles.dayCell,
-    !isCurrentMonth ? styles.otherMonth : "",
-    isToday ? styles.today : "",
-    meetings.length > 0 ? styles.hasEvents : "",
-  ]
-    .filter(Boolean)
-    .join(" ");
-
   return (
-    <div className={classes} onClick={onClick} role="button" tabIndex={0}
-      onKeyDown={(e) => { if (e.key === "Enter" || e.key === " ") onClick(); }}>
-      <div className={styles.dayNumber}>{day}</div>
-      {meetings.length > 0 && (
-        <div className={styles.eventDots}>
-          {meetings.map((m) => (
-            <div key={m.id} className={styles.eventDot}>
-              <span className={`${styles.dotMark} ${isPast ? styles.past : ""}`} />
-              <span className={styles.eventLabel}>{m.title}</span>
-            </div>
-          ))}
-        </div>
+    <button
+      type="button"
+      className={cn(
+        "min-h-[104px] border-2 border-border bg-card p-2 text-left transition-colors hover:bg-muted/20",
+        !isCurrentMonth && "bg-muted/20 text-muted-foreground",
+        isToday && "border-[var(--color-red-mid)]",
+        meetings.length > 0 && "shadow-[3px_3px_0_var(--color-border)]"
       )}
-    </div>
+      onClick={onClick}
+    >
+      <span className="text-sm font-black">{day}</span>
+      {meetings.length > 0 && (
+        <span className="mt-2 grid gap-1">
+          {meetings.map((m) => (
+            <span key={m.id} className="flex items-center gap-1 text-[0.66rem] font-semibold leading-tight">
+              <span
+                className={cn(
+                  "h-2 w-2 rounded-full border border-border bg-[var(--color-red-mid)]",
+                  isPast && "bg-muted"
+                )}
+              />
+              <span className="line-clamp-1">{m.title}</span>
+            </span>
+          ))}
+        </span>
+      )}
+    </button>
   );
 }

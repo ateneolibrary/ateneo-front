@@ -2,8 +2,11 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import type { FavoriteBook, UserProfile, ClubMock } from "@/components/mock-app";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import ModernBookCover from "@/components/club-library/ModernBookCover";
 import BookPickerModal from "./BookPickerModal";
 import styles from "./Profile.module.css";
@@ -198,25 +201,25 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
   return (
     <div className={styles.page}>
       <div className={styles.topActions}>
-        <button type="button" className={styles.backLink} onClick={handleBack}>
+        <Button type="button" variant="outline" className={styles.backLink} onClick={handleBack}>
           ← Volver
-        </button>
+        </Button>
 
         {isOwnProfile && (
           <div className={styles.editActions}>
             {isEditing ? (
               <>
-                <button type="button" className={styles.editPrimaryBtn} onClick={handleSaveEditing}>
+                <Button type="button" className={styles.editPrimaryBtn} onClick={handleSaveEditing}>
                   Guardar cambios
-                </button>
-                <button type="button" className={styles.editSecondaryBtn} onClick={handleCancelEditing}>
+                </Button>
+                <Button type="button" variant="outline" className={styles.editSecondaryBtn} onClick={handleCancelEditing}>
                   Cancelar
-                </button>
+                </Button>
               </>
             ) : (
-              <button type="button" className={styles.editPrimaryBtn} onClick={handleStartEditing}>
+              <Button type="button" className={styles.editPrimaryBtn} onClick={handleStartEditing}>
                 Editar perfil
-              </button>
+              </Button>
             )}
           </div>
         )}
@@ -225,7 +228,7 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
       {/* ── PROFILE HEADER ── */}
       <section className={styles.profileHeader}>
         <div className={styles.profileAvatarWrap}>
-          <img
+          <Image
             src={activeProfile.avatar}
             alt={activeProfile.name}
             width={88}
@@ -236,7 +239,7 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
           {isEditing && (
             <label className={styles.fieldLabel}>
               Foto de perfil (URL)
-              <input
+              <Input
                 type="url"
                 className={styles.fieldInput}
                 value={draft.avatar}
@@ -249,7 +252,7 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
 
         <div className={styles.profileInfo}>
           {isEditing ? (
-            <input
+            <Input
               type="text"
               className={styles.nameInput}
               value={draft.name}
@@ -291,13 +294,14 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
                 <span className={styles.editHint}>Clic en una tarjeta para cambiar</span>
               ) : (
                 filledIndices.length > 0 && (
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
                     className={styles.flipAllBtn}
                     onClick={handleFlipAll}
                   >
                     {allFilledFlipped ? "Ocultar todos" : "Girar todos"}
-                  </button>
+                  </Button>
                 )
               )}
             </div>
@@ -379,8 +383,9 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
                     </div>
 
                     {isEditing && book && (
-                      <button
+                      <Button
                         type="button"
+                        variant="outline"
                         className={styles.removeBookBtn}
                         onClick={(e) => {
                           e.stopPropagation();
@@ -389,7 +394,7 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
                         aria-label={`Quitar ${book.title}`}
                       >
                         Quitar
-                      </button>
+                      </Button>
                     )}
                   </div>
                 );
@@ -408,7 +413,7 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
             {isEditing && (
               <div className={styles.genreEditor}>
                 <div className={styles.genreAddRow}>
-                  <input
+                  <Input
                     type="text"
                     className={styles.genreInput}
                     value={genreInput}
@@ -422,14 +427,15 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
                       }
                     }}
                   />
-                  <button
+                  <Button
                     type="button"
+                    variant="outline"
                     className={styles.genreAddBtn}
                     onClick={handleAddGenre}
                     disabled={!genreInput.trim() || draft.favoriteGenres.length >= MAX_GENRES}
                   >
                     Anadir
-                  </button>
+                  </Button>
                 </div>
                 <p className={styles.genreCounter}>{activeProfile.favoriteGenres.length}/{MAX_GENRES}</p>
               </div>
@@ -443,14 +449,15 @@ export default function ProfileBoard({ user, userClubs }: ProfileBoardProps) {
                     {genre}
                   </span>
                   {isEditing && (
-                    <button
+                    <Button
                       type="button"
+                      variant="outline"
                       className={styles.genreRemoveBtn}
                       onClick={() => handleRemoveGenre(index)}
                       aria-label={`Quitar genero ${genre}`}
                     >
                       Quitar
-                    </button>
+                    </Button>
                   )}
                 </li>
               ))}

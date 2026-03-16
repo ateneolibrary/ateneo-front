@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ClubMeeting } from "@/components/mock-app";
-import styles from "./ClubMeetings.module.css";
 import MonthCalendar from "./MonthCalendar";
 import EventPanel from "./EventPanel";
 
@@ -75,15 +75,21 @@ export default function MeetingsBoard({ meetings, isAdmin, currentUserId }: Meet
   }
 
   return (
-    <div className={styles.board}>
-      <div className={`${styles.calendarArea} ${panelOpen ? styles.panelOpen : ""}`}>
-        <MonthCalendar
-          meetings={allMeetings}
-          isAdmin={isAdmin}
-          onDayClick={handleDayClick}
-          onAddEvent={handleAddEvent}
-        />
-      </div>
+    <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_360px] xl:items-start">
+      <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+        <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+          <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Calendario de reuniones</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-4">
+          <MonthCalendar
+            meetings={allMeetings}
+            isAdmin={isAdmin}
+            onDayClick={handleDayClick}
+            onAddEvent={handleAddEvent}
+          />
+        </CardContent>
+      </Card>
+
       <EventPanel
         isOpen={panelOpen}
         mode={panelMode}
@@ -94,6 +100,6 @@ export default function MeetingsBoard({ meetings, isAdmin, currentUserId }: Meet
         onCreate={handleCreateMeeting}
         onRsvp={handleUpdateRsvp}
       />
-    </div>
+    </section>
   );
 }

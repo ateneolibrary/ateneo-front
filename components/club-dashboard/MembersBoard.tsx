@@ -1,9 +1,13 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
 import { useState } from "react";
+
 import type { ClubMember } from "@/components/mock-app";
-import styles from "./ClubDashboard.module.css";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 
 type MembersBoardProps = {
   membersList: ClubMember[];
@@ -52,176 +56,100 @@ export default function MembersBoard({
   }
 
   return (
-    <div className={styles.membersRoot}>
-      {/* ── top stat row ── */}
-      <div className={styles.membersTotalRow}>
-        <section className={`${styles.membersTotalPanel} ${styles.panelShell}`}>
-          <span className={styles.panelBadge}>Members</span>
-          <div className={styles.membersTotalInner}>
-            <span className={styles.membersTotalNumber}>{members.length}</span>
-            <div className={styles.membersTotalMeta}>
-              <span className={styles.membersTotalLabel}>Miembros activos</span>
-              <span className={styles.membersTotalSub}>en este club</span>
-            </div>
-          </div>
-        </section>
+    <div className="grid gap-4">
+      <section className="grid gap-4 lg:grid-cols-[280px_minmax(0,1fr)]">
+        <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+          <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+            <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Members</CardTitle>
+          </CardHeader>
+          <CardContent className="px-4 py-4">
+            <p className="text-5xl leading-none font-black">{members.length}</p>
+            <p className="mt-2 text-xs font-black tracking-[0.07em] text-muted-foreground uppercase">Miembros activos en este club</p>
+          </CardContent>
+        </Card>
 
-        {admin && (
-          <section className={`${styles.membersAdminPanel} ${styles.panelShell}`}>
-            <span className={styles.panelBadge}>Administrador</span>
-            <div className={styles.membersAdminInner}>
-              <Link href={`/profile/${admin.id}`} className={styles.membersAdminAvatarLink}>
-                <img
-                  src={admin.avatar}
-                  alt={admin.name}
-                  width={56}
-                  height={56}
-                  className={styles.membersAdminAvatar}
-                />
+        {admin ? (
+          <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+            <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+              <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Administrador</CardTitle>
+            </CardHeader>
+            <CardContent className="flex items-center gap-3 px-4 py-4">
+              <Link href={`/profile/${admin.id}`} className="relative h-14 w-14 overflow-hidden rounded-none border-2 border-border">
+                <Image src={admin.avatar} alt={admin.name} fill sizes="56px" className="object-cover" />
               </Link>
-              <div className={styles.membersAdminInfo}>
-                <Link href={`/profile/${admin.id}`} className={styles.membersAdminInfoLink}>
-                  <p className={styles.membersAdminName}>{admin.name}</p>
-                  <p className={styles.membersAdminUsername}>{admin.username}</p>
+              <div className="min-w-0">
+                <Link href={`/profile/${admin.id}`} className="block no-underline">
+                  <p className="truncate text-sm font-black tracking-[0.05em] uppercase">{admin.name}</p>
+                  <p className="truncate text-xs text-muted-foreground">{admin.username}</p>
                 </Link>
-                <span className={styles.membersAdminTag}>Admin</span>
+                <span className="mt-2 inline-flex h-7 items-center border-2 border-border bg-[var(--color-red-light)] px-2 text-[0.65rem] font-black tracking-[0.08em] uppercase">Admin</span>
               </div>
-            </div>
-          </section>
-        )}
-      </div>
-
-      {/* ── member list ── */}
-      <section className={`${styles.membersListPanel} ${styles.panelShell}`}>
-        <span className={styles.panelBadge}>Lista de Miembros</span>
-
-        {/* search bar */}
-        <div className={styles.membersSearch}>
-          <svg
-            className={styles.membersSearchIcon}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2.2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            aria-hidden="true"
-          >
-            <circle cx="11" cy="11" r="8" />
-            <line x1="21" y1="21" x2="16.65" y2="16.65" />
-          </svg>
-          <input
-            type="search"
-            className={styles.membersSearchInput}
-            placeholder="Buscar por nombre o usuario…"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            aria-label="Buscar miembros"
-          />
-          {search && (
-            <button
-              type="button"
-              className={styles.membersSearchClear}
-              onClick={() => setSearch("")}
-              aria-label="Limpiar búsqueda"
-            >
-              ✕
-            </button>
-          )}
-        </div>
-
-        <ul className={styles.membersList}>
-          {visibleMembers.length === 0 && (
-            <li className={styles.membersEmptyState}>
-              No se encontraron miembros para &ldquo;{search}&rdquo;
-            </li>
-          )}
-          {visibleMembers.map((member) => {
-            const isAdminMember = member.id === adminId;
-            const isRemoving = removingId === member.id;
-            const isConfirming = confirmId === member.id;
-
-            return (
-              <li
-                key={member.id}
-                className={`${styles.memberRow} ${isAdminMember ? styles.memberRowAdmin : ""} ${isRemoving ? styles.memberRowRemoving : ""}`}
-              >
-                {/* avatar */}
-                <Link href={`/profile/${member.id}`} className={styles.memberAvatarWrap}>
-                  <img
-                    src={member.avatar}
-                    alt={member.name}
-                    width={48}
-                    height={48}
-                    className={styles.memberAvatar}
-                  />
-                  {isAdminMember && <span className={styles.memberAvatarAdminDot} title="Administrador" />}
-                </Link>
-
-                {/* info */}
-                <Link href={`/profile/${member.id}`} className={styles.memberInfo}>
-                  <p className={styles.memberName}>{member.name}</p>
-                  <p className={styles.memberUsername}>{member.username}</p>
-                </Link>
-
-                {/* join date */}
-                <div className={styles.memberJoinWrap}>
-                  <span className={styles.memberJoinLabel}>Se unió</span>
-                  <span className={styles.memberJoinDate}>{member.joinDate}</span>
-                </div>
-
-                {/* admin badge or remove button */}
-                {isAdminMember ? (
-                  <span className={styles.memberBadgeAdmin}>Admin</span>
-                ) : isAdmin ? (
-                  isConfirming ? (
-                    <div className={styles.memberConfirmRow}>
-                      <span className={styles.memberConfirmText}>¿Eliminar?</span>
-                      <button
-                        type="button"
-                        className={`${styles.memberActionBtn} ${styles.memberActionBtnConfirm}`}
-                        onClick={() => handleConfirmRemove(member.id)}
-                      >
-                        Sí
-                      </button>
-                      <button
-                        type="button"
-                        className={`${styles.memberActionBtn} ${styles.memberActionBtnCancel}`}
-                        onClick={handleCancelRemove}
-                      >
-                        No
-                      </button>
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className={styles.memberRemoveBtn}
-                      onClick={() => handleRemoveClick(member.id)}
-                      aria-label={`Eliminar a ${member.name}`}
-                    >
-                      <svg
-                        className={styles.memberRemoveIcon}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="2.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        aria-hidden="true"
-                      >
-                        <polyline points="3 6 5 6 21 6" />
-                        <path d="M19 6l-1 14a2 2 0 01-2 2H8a2 2 0 01-2-2L5 6" />
-                        <path d="M10 11v6M14 11v6" />
-                        <path d="M9 6V4a1 1 0 011-1h4a1 1 0 011 1v2" />
-                      </svg>
-                    </button>
-                  )
-                ) : null}
-              </li>
-            );
-          })}
-        </ul>
+            </CardContent>
+          </Card>
+        ) : null}
       </section>
+
+      <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+        <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+          <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Lista de miembros</CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-4 px-4 py-4">
+          <div className="grid grid-cols-[minmax(0,1fr)_auto] gap-2">
+            <Input
+              type="search"
+              className="h-11 rounded-none border-2 border-border bg-card px-3 text-sm"
+              placeholder="Buscar por nombre o usuario..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              aria-label="Buscar miembros"
+            />
+            {search ? (
+              <Button type="button" variant="outline" className="h-11 rounded-none border-2 border-border px-3" onClick={() => setSearch("")}>Limpiar</Button>
+            ) : null}
+          </div>
+
+          <ul className="grid gap-2">
+            {visibleMembers.length === 0 ? <li className="border-2 border-border bg-muted px-3 py-3 text-sm">No se encontraron miembros para &ldquo;{search}&rdquo;</li> : null}
+
+            {visibleMembers.map((member) => {
+              const isAdminMember = member.id === adminId;
+              const isRemoving = removingId === member.id;
+              const isConfirming = confirmId === member.id;
+
+              return (
+                <li key={member.id} className={`grid items-center gap-3 border-2 border-border bg-card px-3 py-2 transition sm:grid-cols-[56px_minmax(0,1fr)_auto_auto] ${isRemoving ? "opacity-40" : "opacity-100"}`}>
+                  <Link href={`/profile/${member.id}`} className="relative h-12 w-12 overflow-hidden rounded-none border-2 border-border">
+                    <Image src={member.avatar} alt={member.name} fill sizes="48px" className="object-cover" />
+                  </Link>
+
+                  <Link href={`/profile/${member.id}`} className="min-w-0 no-underline">
+                    <p className="truncate text-sm font-black tracking-[0.04em] uppercase">{member.name}</p>
+                    <p className="truncate text-xs text-muted-foreground">{member.username}</p>
+                  </Link>
+
+                  <p className="text-[0.68rem] font-black tracking-[0.06em] text-muted-foreground uppercase">Se unio: {member.joinDate}</p>
+
+                  {isAdminMember ? (
+                    <span className="inline-flex h-8 items-center justify-center border-2 border-border bg-[var(--color-red-light)] px-2 text-[0.65rem] font-black tracking-[0.08em] uppercase">Admin</span>
+                  ) : isAdmin ? (
+                    isConfirming ? (
+                      <div className="flex items-center gap-1">
+                        <span className="text-[0.65rem] font-black tracking-[0.05em] uppercase">Eliminar?</span>
+                        <Button type="button" className="h-8 rounded-none border-2 border-border px-2 text-[0.6rem] font-black tracking-[0.07em] uppercase" onClick={() => handleConfirmRemove(member.id)}>Si</Button>
+                        <Button type="button" variant="outline" className="h-8 rounded-none border-2 border-border px-2 text-[0.6rem] font-black tracking-[0.07em] uppercase" onClick={handleCancelRemove}>No</Button>
+                      </div>
+                    ) : (
+                      <Button type="button" variant="outline" className="h-8 rounded-none border-2 border-border px-2 text-[0.62rem] font-black tracking-[0.07em] uppercase" onClick={() => handleRemoveClick(member.id)} aria-label={`Eliminar a ${member.name}`}>
+                        Eliminar
+                      </Button>
+                    )
+                  ) : null}
+                </li>
+              );
+            })}
+          </ul>
+        </CardContent>
+      </Card>
     </div>
   );
 }

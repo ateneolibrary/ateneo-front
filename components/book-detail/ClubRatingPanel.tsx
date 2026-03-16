@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { ReadHistoryBook } from "@/components/mock-app";
-import styles from "./BookDetail.module.css";
 
 type ClubRatingPanelProps = {
   book: ReadHistoryBook;
@@ -26,45 +27,57 @@ export default function ClubRatingPanel({ book, shareRating }: ClubRatingPanelPr
   const [activeRatingPage, setActiveRatingPage] = useState(0);
 
   return (
-    <div className={styles.ratingVerdictGrid}>
-      <section className={styles.ratingPanel}>
-        <div className={styles.clubRatingBadge}>
-          Club Rating <span className={styles.clubRatingValue}>{book.rating.toFixed(1)}</span>
-        </div>
+    <section className="grid min-w-0 gap-4 xl:grid-cols-[minmax(0,1fr)_minmax(260px,320px)]">
+      <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+        <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+          <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">
+            Valoración del club <span className="ml-1 text-sm">{book.rating.toFixed(1)}</span>
+          </CardTitle>
+        </CardHeader>
+        <CardContent className="grid gap-3 px-4 py-4">
         {shareRating ? (
           <>
-            <div className={styles.memberRatingsList}>
+            <div className="grid gap-2">
               {(ratingPages[activeRatingPage] ?? []).map((member) => (
-                <div key={member.name} className={styles.memberRatingItem}>
-                  <span className={styles.memberInitial}>{member.initial}</span>
-                  <span className={styles.memberName}>{member.name}</span>
-                  <span className={styles.memberStars}>{renderStars(member.rating)}</span>
+                <div key={member.name} className="grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border-2 border-border bg-card px-2 py-1.5">
+                  <span className="grid h-7 w-7 place-items-center border-2 border-border bg-muted text-xs font-black">{member.initial}</span>
+                  <span className="truncate text-sm font-semibold">{member.name}</span>
+                  <span className="text-xs font-semibold">{renderStars(member.rating)}</span>
                 </div>
               ))}
             </div>
             {ratingPages.length > 1 ? (
-              <div className={styles.pageControls} aria-label="Paginación de valoraciones">
+              <div className="flex flex-wrap gap-1" aria-label="Paginación de valoraciones">
                 {ratingPages.map((_, index) => (
-                  <button
+                  <Button
                     key={`rating-page-${index}`}
                     type="button"
-                    className={`${styles.pageDot} ${index === activeRatingPage ? styles.pageDotActive : ""}`}
+                    size="sm"
+                    variant={index === activeRatingPage ? "default" : "outline"}
+                    className="rounded-none border-2 border-border px-2 text-[0.62rem] font-black"
                     aria-label={`Ver valoraciones página ${index + 1}`}
                     onClick={() => setActiveRatingPage(index)}
-                  />
+                  >
+                    {index + 1}
+                  </Button>
                 ))}
               </div>
             ) : null}
           </>
-        ) : null}
-      </section>
+        ) : (
+          <p className="text-sm text-muted-foreground">Este club decidió no compartir valoraciones individuales.</p>
+        )}
+        </CardContent>
+      </Card>
 
-      <section className={styles.verdictPanel}>
-        <span className={styles.verdictLabel}>Consensus Verdict</span>
-        <p className={styles.verdictText}>
-          &ldquo;{book.consensusVerdict}&rdquo;
-        </p>
-      </section>
-    </div>
+      <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+        <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+          <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Veredicto consensuado</CardTitle>
+        </CardHeader>
+        <CardContent className="px-4 py-4">
+          <p className="text-base leading-relaxed">&ldquo;{book.consensusVerdict}&rdquo;</p>
+        </CardContent>
+      </Card>
+    </section>
   );
 }

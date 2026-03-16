@@ -248,7 +248,7 @@ export default async function HomePage({ searchParams }: HomePageProps) {
   const heroBookCoverColor = isBookCoverColor(HERO_BOOK.color) ? HERO_BOOK.color : "green";
 
   return (
-    <main className="min-h-[calc(100vh-5rem)] bg-[radial-gradient(circle_at_12%_18%,var(--color-secondary)_0,var(--color-background)_34%),radial-gradient(circle_at_100%_0%,rgba(234,67,95,0.25)_0,rgba(252,255,231,0)_42%)] px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
+    <main className="min-h-[calc(100vh-5rem)] bg-[radial-gradient(circle_at_12%_18%,var(--color-secondary)_0,var(--color-background)_34%),radial-gradient(circle_at_100%_0%,var(--color-red-intense-glow)_0,rgba(252,255,231,0)_42%)] px-4 py-6 sm:px-6 lg:px-8 lg:py-10">
       <div className={`mx-auto grid w-full max-w-7xl gap-6 ${authView ? "lg:grid-cols-[minmax(0,1.2fr)_minmax(0,0.8fr)]" : ""}`}>
         <section className="grid gap-6">
           <Card className="overflow-hidden border-4 border-border bg-card shadow-[10px_10px_0_var(--color-border)]">

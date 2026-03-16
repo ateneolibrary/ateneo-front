@@ -2,6 +2,9 @@
 
 import { useMemo, useState, type FormEvent } from "react";
 import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import styles from "./CreateClubForm.module.css";
 
 type Modality = "online" | "presencial" | "hibrido";
@@ -185,10 +188,10 @@ export function CreateClubForm() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Informacion base</h2>
 
-          <label className={styles.label} htmlFor="club-name">
+          <Label className={styles.label} htmlFor="club-name">
             Nombre del club
-          </label>
-          <input
+          </Label>
+          <Input
             id="club-name"
             className={`${styles.input} ${errors.clubName ? styles.inputError : ""}`}
             type="text"
@@ -204,9 +207,9 @@ export function CreateClubForm() {
             </p>
           )}
 
-          <label className={styles.label} htmlFor="club-description">
+          <Label className={styles.label} htmlFor="club-description">
             Descripcion
-          </label>
+          </Label>
           <textarea
             id="club-description"
             className={`${styles.textarea} ${errors.description ? styles.inputError : ""}`}
@@ -237,16 +240,17 @@ export function CreateClubForm() {
               const isLocked = values.categories.length >= MAX_CATEGORIES && !isActive;
 
               return (
-                <button
+                <Button
                   key={category}
                   type="button"
+                  variant="outline"
                   className={`${styles.categoryChip} ${isActive ? styles.categoryChipActive : ""}`}
                   onClick={() => toggleCategory(category)}
                   disabled={isSubmitting || isLocked}
                   aria-pressed={isActive}
                 >
                   {category}
-                </button>
+                </Button>
               );
             })}
           </div>
@@ -269,10 +273,10 @@ export function CreateClubForm() {
 
           {needsAddress && (
             <>
-              <label className={styles.label} htmlFor="club-address">
+              <Label className={styles.label} htmlFor="club-address">
                 Direccion
-              </label>
-              <input
+              </Label>
+              <Input
                 id="club-address"
                 className={`${styles.input} ${errors.address ? styles.inputError : ""}`}
                 type="text"
@@ -315,9 +319,9 @@ export function CreateClubForm() {
         <section className={styles.section}>
           <h2 className={styles.sectionTitle}>Preferencias de comunidad</h2>
 
-          <label className={styles.label} htmlFor="primary-language">
+          <Label className={styles.label} htmlFor="primary-language">
             Idioma principal
-          </label>
+          </Label>
           <select
             id="primary-language"
             className={`${styles.select} ${errors.primaryLanguage ? styles.inputError : ""}`}
@@ -387,9 +391,9 @@ export function CreateClubForm() {
           </div>
         )}
 
-        <button className={styles.submitButton} type="submit" disabled={isSubmitting}>
+        <Button className={styles.submitButton} type="submit" disabled={isSubmitting}>
           {isSubmitting ? "Creando club..." : "Crear club"}
-        </button>
+        </Button>
       </fieldset>
     </form>
   );
@@ -421,16 +425,17 @@ function SegmentedControl<T extends string>({ label, value, options, onChange }:
           const selected = option.value === value;
 
           return (
-            <button
+            <Button
               key={option.value}
               type="button"
+              variant="outline"
               className={`${styles.segmentedButton} ${selected ? styles.segmentedButtonActive : ""}`}
               onClick={() => onChange(option.value)}
               role="radio"
               aria-checked={selected}
             >
               {option.label}
-            </button>
+            </Button>
           );
         })}
       </div>
@@ -448,14 +453,15 @@ function ToggleRow({ label, checked, onChange }: ToggleRowProps) {
   return (
     <div className={styles.toggleRow}>
       <span>{label}</span>
-      <button
+      <Button
         type="button"
+        variant="outline"
         className={`${styles.toggleButton} ${checked ? styles.toggleButtonOn : ""}`}
         onClick={() => onChange(!checked)}
         aria-pressed={checked}
       >
         <span className={styles.toggleThumb} />
-      </button>
+      </Button>
     </div>
   );
 }

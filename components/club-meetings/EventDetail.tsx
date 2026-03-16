@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import type { ClubMeeting } from "@/components/mock-app";
-import styles from "./ClubMeetings.module.css";
 
 type RSVPStatus = "si" | "quizas" | "no";
 
@@ -55,78 +56,60 @@ export default function EventDetail({ meeting, currentUserId, onRsvp }: EventDet
   const noVan = meeting.attendees.filter((a) => a.status === "no");
 
   return (
-    <div className={styles.detailBlock}>
-      <h2 className={styles.detailTitle}>{meeting.title}</h2>
+    <div className="grid gap-4">
+      <h2 className="text-lg font-black tracking-[0.01em]">{meeting.title}</h2>
 
-      <div className={styles.metaGrid}>
-        {/* Fecha */}
-        <span className={styles.metaIconCell}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <rect x="3" y="4" width="18" height="18" rx="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-          </svg>
-        </span>
-        <span className={styles.metaValue}>{formatDate(meeting.date, meeting.time)}</span>
-
-        {/* Duración */}
-        <span className={styles.metaIconCell}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <circle cx="12" cy="12" r="10" />
-            <polyline points="12 6 12 12 16 14" />
-          </svg>
-        </span>
-        <span className={styles.metaValue}>{formatDuration(meeting.durationMinutes)}</span>
-
-        {/* Lugar */}
-        <span className={styles.metaIconCell}>
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" />
-            <circle cx="12" cy="9" r="2.5" />
-          </svg>
-        </span>
-        <span className={styles.metaValue}>
+      <dl className="grid gap-2 border-2 border-border bg-muted/20 p-3 text-sm">
+        <div className="grid gap-1">
+          <dt className="text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">Fecha</dt>
+          <dd className="font-semibold">{formatDate(meeting.date, meeting.time)}</dd>
+        </div>
+        <div className="grid gap-1">
+          <dt className="text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">Duración</dt>
+          <dd className="font-semibold">{formatDuration(meeting.durationMinutes)}</dd>
+        </div>
+        <div className="grid gap-1">
+          <dt className="text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">Lugar</dt>
+          <dd className="font-semibold">
           {isUrl(meeting.location) ? (
-            <a href={meeting.location} target="_blank" rel="noopener noreferrer">
+            <a href={meeting.location} target="_blank" rel="noopener noreferrer" className="underline underline-offset-2">
               Unirse al enlace
             </a>
           ) : (
             meeting.location
           )}
-        </span>
-      </div>
+          </dd>
+        </div>
+      </dl>
 
-      {/* My RSVP */}
-      <div>
-        <p className={styles.sectionLabel}>Tu asistencia</p>
-        <div className={styles.rsvpRow}>
+      <div className="grid gap-2">
+        <p className="text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">Tu asistencia</p>
+        <div className="grid grid-cols-3 gap-1">
           {RSVP_LABELS.map(({ status, label }) => (
-            <button
+            <Button
               key={status}
-              className={`${styles.rsvpBtn} ${myStatus === status ? `${styles.active} ${styles[status]}` : ""}`}
+              type="button"
+              variant={myStatus === status ? "default" : "outline"}
+              size="sm"
+              className="rounded-none border-2 border-border text-[0.68rem] font-black tracking-[0.08em] uppercase"
               onClick={() => handleRsvp(status)}
             >
               {label}
-            </button>
+            </Button>
           ))}
         </div>
       </div>
 
-      <hr className={styles.divider} />
-
-      {/* Attendees */}
-      <div>
-        <p className={styles.sectionLabel}>
+      <div className="grid gap-2">
+        <p className="text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">
           Asistencia · {confirmados.length} confirmados · {quizas.length} quizás · {noVan.length} no van
         </p>
-        <div className={styles.attendeeList}>
+        <div className="grid gap-2">
           {meeting.attendees.map((a) => (
-            <div key={a.userId} className={styles.attendeeRow}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={a.avatar} alt={a.name} className={styles.attendeeAvatar} />
-              <span className={styles.attendeeName}>{a.name}</span>
-              <span className={`${styles.attendeeStatus} ${styles[a.userId === currentUserId && myStatus ? myStatus : a.status]}`}>
+            <div key={a.userId} className="flex items-center gap-2 border-2 border-border bg-card px-2 py-1.5">
+              <Image src={a.avatar} alt={a.name} width={28} height={28} className="h-7 w-7 border-2 border-border object-cover" />
+              <span className="text-sm font-semibold">{a.name}</span>
+              <span className="ml-auto text-[0.68rem] font-black tracking-[0.08em] uppercase text-muted-foreground">
                 {a.userId === currentUserId && myStatus
                   ? RSVP_LABELS.find((r) => r.status === myStatus)?.label
                   : RSVP_LABELS.find((r) => r.status === a.status)?.label}

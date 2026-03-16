@@ -1,11 +1,16 @@
 "use client";
 
-import { useMemo, useRef, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
+import { useMemo, useRef, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { getBookRouteId } from "@/components/mock-app";
 import type { ReadHistoryBook } from "@/components/mock-app";
+import { cn } from "@/lib/utils";
+
 import ModernBookCover from "./ModernBookCover";
-import styles from "@/components/club-dashboard/ClubDashboard.module.css";
 
 type WishListBook = {
   title: string;
@@ -43,14 +48,7 @@ const PROPOSAL_CATALOG = [
   { title: "Klara and the Sun", author: "Kazuo Ishiguro", cover: "/images/books/dune.jpg" },
 ];
 
-function toKey(value: string): string {
-  return value.trim().toLowerCase().replace(/\s+/g, "-");
-}
-
-function stars(rating: number): string {
-  const full = Math.round(rating);
-  return "★".repeat(full) + "☆".repeat(5 - full);
-}
+const DRAG_TRANSFER_MS = 560;
 
 const monthMap: Record<string, number> = {
   enero: 0,
@@ -68,6 +66,15 @@ const monthMap: Record<string, number> = {
 };
 
 const monthShort = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+
+function toKey(value: string): string {
+  return value.trim().toLowerCase().replace(/\s+/g, "-");
+}
+
+function stars(rating: number): string {
+  const full = Math.round(rating);
+  return "★".repeat(full) + "☆".repeat(5 - full);
+}
 
 function formatShortDate(value: string): string {
   const match = value
@@ -92,8 +99,6 @@ function formatShortDate(value: string): string {
 function formatShortRange(startDate: string, endDate: string): string {
   return `${formatShortDate(startDate)} - ${formatShortDate(endDate)}`;
 }
-
-const DRAG_TRANSFER_MS = 560;
 
 function buildInitialReadList(wishList: WishListBook[]): ReadListItem[] {
   return wishList.map((book, index) => ({
@@ -130,15 +135,12 @@ function buildInitialProposals(readHistory: ReadHistoryBook[], wishList: WishLis
   }
 
   const members = Array.from(memberMap.values());
-
   const blockedTitles = new Set([
     ...readHistory.map((book) => toKey(book.title)),
     ...wishList.map((book) => toKey(book.title)),
   ]);
 
-  const available = PROPOSAL_CATALOG.filter(
-    (book) => !blockedTitles.has(toKey(book.title))
-  ).slice(0, 4);
+  const available = PROPOSAL_CATALOG.filter((book) => !blockedTitles.has(toKey(book.title))).slice(0, 4);
 
   return available.map((book, index) => {
     const member = members[index % Math.max(1, members.length)];
@@ -160,8 +162,10 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
   const [votedMap, setVotedMap] = useState<Record<string, boolean>>({});
   const [movingProposalKey, setMovingProposalKey] = useState<string | null>(null);
   const [insertedReadKey, setInsertedReadKey] = useState<string | null>(null);
+  const [activePodiumId, setActivePodiumId] = useState<string | null>(null);
+
   const readListRowsRef = useRef<HTMLOListElement | null>(null);
-  const proposalRowRefs = useRef<Record<string, HTMLArticleElement | null>>({});
+  const proposalRowRefs = useRef<Record<string, HTMLElement | null>>({});
 
   const sortedReadList = useMemo(
     () =>
@@ -185,10 +189,8 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
     [readHistory]
   );
 
-  const [activePodiumId, setActivePodiumId] = useState<string | null>(null);
-  const activePodiumBook = activePodiumId
-    ? podium.find((book) => book.id === activePodiumId)
-    : undefined;
+  const activePodiumBook = activePodiumId ? podium.find((book) => book.id === activePodiumId) : undefined;
+  const podiumLayout = [podium[1], podium[0], podium[2]].filter(Boolean) as ReadHistoryBook[];
 
   function handleVote(bookKey: string) {
     const hasVoted = Boolean(votedMap[bookKey]);
@@ -219,51 +221,35 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
     const targetX = destinationRect.left + 8;
     const minTargetY = destinationRect.top + 8;
     const maxTargetY = destinationRect.bottom - originRect.height - 8;
-    let targetY = minTargetY;
 
+    let targetY = minTargetY;
     if (lastRow) {
       const lastRowRect = lastRow.getBoundingClientRect();
       const desiredY = lastRowRect.bottom + 8;
       targetY = Math.max(minTargetY, Math.min(desiredY, maxTargetY));
-    } else {
-      targetY = Math.max(minTargetY, Math.min(destinationRect.top + 12, maxTargetY));
-    }
-
-    if (targetY < minTargetY) {
-      targetY = minTargetY;
     }
 
     const ghost = origin.cloneNode(true) as HTMLElement;
-    ghost.classList.remove(styles.proposalRowExiting);
-    ghost.classList.add(styles.proposalDragGhost);
+    ghost.style.position = "fixed";
+    ghost.style.zIndex = "120";
+    ghost.style.pointerEvents = "none";
+    ghost.style.margin = "0";
     ghost.style.left = `${originRect.left}px`;
     ghost.style.top = `${originRect.top}px`;
     ghost.style.width = `${originRect.width}px`;
     ghost.style.height = `${originRect.height}px`;
+    ghost.style.boxShadow = "12px 12px 0 rgba(17,17,17,0.22)";
     document.body.appendChild(ghost);
+
     const deltaX = targetX - originRect.left;
     const deltaY = targetY - originRect.top;
 
     const animation = ghost.animate(
       [
-        { transform: "translate(0px, 0px) rotate(0deg) scale(1)", opacity: 1, boxShadow: "12px 12px 0 rgba(17, 17, 17, 0.22)" },
-        {
-          transform: `translate(${Math.round(deltaX * 0.35)}px, ${Math.round(deltaY * 0.08 - 34)}px) rotate(-4deg) scale(1.02)`,
-          opacity: 1,
-          boxShadow: "16px 16px 0 rgba(17, 17, 17, 0.22)",
-          offset: 0.34,
-        },
-        {
-          transform: `translate(${Math.round(deltaX * 0.75)}px, ${Math.round(deltaY * 0.62 - 10)}px) rotate(2deg) scale(1)`,
-          opacity: 1,
-          boxShadow: "10px 10px 0 rgba(17, 17, 17, 0.2)",
-          offset: 0.74,
-        },
-        {
-          transform: `translate(${deltaX}px, ${deltaY}px) rotate(0deg) scale(0.96)`,
-          opacity: 1,
-          boxShadow: "0 0 0 rgba(17, 17, 17, 0)",
-        },
+        { transform: "translate(0px, 0px) rotate(0deg) scale(1)", opacity: 1 },
+        { transform: `translate(${Math.round(deltaX * 0.35)}px, ${Math.round(deltaY * 0.08 - 34)}px) rotate(-4deg) scale(1.02)`, opacity: 1, offset: 0.34 },
+        { transform: `translate(${Math.round(deltaX * 0.75)}px, ${Math.round(deltaY * 0.62 - 10)}px) rotate(2deg) scale(1)`, opacity: 1, offset: 0.74 },
+        { transform: `translate(${deltaX}px, ${deltaY}px) rotate(0deg) scale(0.96)`, opacity: 1 },
       ],
       {
         duration: DRAG_TRANSFER_MS,
@@ -319,8 +305,6 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
     }, DRAG_TRANSFER_MS - 20);
   }
 
-  const podiumLayout = [podium[1], podium[0], podium[2]].filter(Boolean) as ReadHistoryBook[];
-
   function getPodiumColor(rank: number): "red" | "slate" | "zinc" {
     if (rank === 1) return "red";
     if (rank === 2) return "slate";
@@ -328,151 +312,160 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
   }
 
   return (
-    <section className={styles.libraryLayoutV2}>
-      <div className={styles.libraryMainColumn}>
-        <section id="readlist" className={`${styles.libraryBlock} ${styles.panelShell} ${styles.libraryAnchorTarget}`}>
-          <span className={styles.panelBadge}>ReadList</span>
-          <div className={styles.libraryBlockHead}>
-            <span className={styles.libraryHeadBadge}>Active Voting</span>
-          </div>
-          <ol ref={readListRowsRef} className={styles.readListRows}>
-            {sortedReadList.map((book, index) => {
-              const hasVoted = Boolean(votedMap[book.key]);
-              return (
-                <li key={book.key} className={styles.libraryRowItem}>
-                  <article className={`${styles.readListRow} ${insertedReadKey === book.key ? styles.readListRowInserted : ""}`}>
-                    <span className={styles.readListRank}>{String(index + 1).padStart(2, "0")}</span>
-                    <div className={styles.readListText}>
-                      <h3 className={styles.readListTitle}>{book.title}</h3>
-                      <p className={styles.readListAuthor}>{book.author}</p>
-                    </div>
-                    <div className={styles.readListVotes}>
-                      <span className={styles.readListVotesValue}>{book.votes}</span>
-                      <span className={styles.readListVotesLabel}>votes</span>
-                    </div>
-                    <button
-                      type="button"
-                      className={`${styles.wishVoteBtn} ${styles.readListVoteBtnCompact} ${hasVoted ? styles.wishVoteBtnVoted : ""}`}
-                      onClick={() => handleVote(book.key)}
-                      aria-label={hasVoted ? "Quitar voto del libro" : "Votar libro"}
+    <section className="grid gap-4 xl:grid-cols-[minmax(0,1fr)_312px] xl:items-start">
+      <div className="grid gap-4">
+        <Card id="readlist" className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)] scroll-mt-28">
+          <CardHeader className="flex flex-row items-center justify-between border-b-2 border-border bg-muted/40 px-4 py-3">
+            <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Readlist activa</CardTitle>
+            <span className="text-[0.64rem] font-black tracking-[0.08em] uppercase text-muted-foreground">Votación en curso</span>
+          </CardHeader>
+          <CardContent className="px-4 py-3">
+            <ol ref={readListRowsRef} className="grid max-h-[340px] gap-2 overflow-y-auto pr-1">
+              {sortedReadList.map((book, index) => {
+                const hasVoted = Boolean(votedMap[book.key]);
+                return (
+                  <li key={book.key}>
+                    <article
+                      className={cn(
+                        "flex items-center gap-2 border-2 border-border bg-card px-2 py-2 transition-colors",
+                        insertedReadKey === book.key && "bg-[var(--color-red-light)]"
+                      )}
                     >
-                      <svg
-                        className={styles.wishVoteIcon}
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                        focusable="false"
+                      <span className="w-8 text-center text-sm font-black">{String(index + 1).padStart(2, "0")}</span>
+                      <div className="min-w-0 flex-1">
+                        <h3 className="truncate text-sm font-bold">{book.title}</h3>
+                        <p className="truncate text-xs text-muted-foreground">{book.author}</p>
+                      </div>
+                      <div className="text-right">
+                        <p className="text-sm font-black">{book.votes}</p>
+                        <p className="text-[0.6rem] font-bold tracking-[0.08em] uppercase text-muted-foreground">Votos</p>
+                      </div>
+                      <Button
+                        type="button"
+                        size="sm"
+                        variant={hasVoted ? "default" : "outline"}
+                        className="rounded-none border-2 border-border px-2 text-[0.62rem] font-black tracking-[0.08em] uppercase"
+                        onClick={() => handleVote(book.key)}
+                        aria-label={hasVoted ? "Quitar voto del libro" : "Votar libro"}
                       >
-                        <path d="M7 10v10" />
-                        <path
-                          className={styles.wishVoteIconThumb}
-                          d="M11 10V7a3 3 0 0 1 3-3h1l-1 5h5.2a2 2 0 0 1 2 2.4l-1.1 7A2 2 0 0 1 18.1 20H9a2 2 0 0 1-2-2v-8a2 2 0 0 1 2-2h2Z"
-                        />
-                        <rect x="3" y="10" width="4" height="10" rx="1" ry="1" />
-                      </svg>
-                    </button>
-                  </article>
-                </li>
-              );
-            })}
-          </ol>
-        </section>
+                        {hasVoted ? "Votado" : "Votar"}
+                      </Button>
+                    </article>
+                  </li>
+                );
+              })}
+            </ol>
+          </CardContent>
+        </Card>
 
-        <section className={`${styles.libraryBlock} ${styles.panelShell}`}>
-          <span className={styles.panelBadge}>Member Proposal List</span>
-          <div className={styles.proposalRows}>
+        <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+          <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+            <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Propuestas de miembros</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-2 px-4 py-3">
             {proposals.length === 0 ? (
-              <p className={styles.proposalEmpty}>No hay propuestas pendientes.</p>
+              <p className="border-2 border-dashed border-border bg-muted/20 px-3 py-4 text-center text-sm text-muted-foreground">
+                No hay propuestas pendientes.
+              </p>
             ) : (
               proposals.map((proposal) => (
                 <article
                   key={proposal.key}
-                  className={`${styles.proposalRow} ${movingProposalKey === proposal.key ? styles.proposalRowExiting : ""}`}
+                  className={cn(
+                    "grid gap-2 border-2 border-border bg-card px-3 py-3 transition-opacity md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center",
+                    movingProposalKey === proposal.key && "opacity-20"
+                  )}
                   ref={(node) => {
                     proposalRowRefs.current[proposal.key] = node;
                   }}
                 >
-                  <div>
-                    <h3 className={styles.proposalTitle}>{proposal.title}</h3>
-                    <p className={styles.proposalAuthor}>{proposal.author}</p>
+                  <div className="min-w-0">
+                    <h3 className="truncate text-sm font-black">{proposal.title}</h3>
+                    <p className="truncate text-xs text-muted-foreground">{proposal.author}</p>
                   </div>
-                  <div className={styles.proposalMember}>
+                  <div className="flex items-center gap-2">
                     {proposal.addedByAvatar ? (
-                      <img
-                        className={styles.proposalMemberAvatar}
+                      <Image
                         src={proposal.addedByAvatar}
                         alt={proposal.addedBy}
+                        width={28}
+                        height={28}
+                        className="h-7 w-7 border-2 border-border object-cover"
                       />
                     ) : (
-                      <span className={styles.proposalMemberFallback}>
+                      <span className="grid h-7 w-7 place-items-center border-2 border-border bg-muted text-xs font-black">
                         {proposal.addedByInitial}
                       </span>
                     )}
-                    <p className={styles.proposalBy}>Añadido por {proposal.addedBy}</p>
+                    <p className="text-xs font-semibold text-muted-foreground">Añadido por {proposal.addedBy}</p>
                   </div>
-                  <button
+                  <Button
                     type="button"
-                    className={styles.proposalAddBtn}
+                    size="sm"
+                    className="rounded-none border-2 border-border px-3 text-[0.62rem] font-black tracking-[0.08em] uppercase"
                     onClick={() => handlePromoteToReadList(proposal)}
                     aria-label={`Añadir ${proposal.title} a la ReadList`}
                   >
-                    <span className={styles.proposalAddText}>Añadir</span>
-                    <span className={styles.proposalAddArrow} aria-hidden="true">↑</span>
-                  </button>
+                    Añadir
+                  </Button>
                 </article>
               ))
             )}
-          </div>
-        </section>
+          </CardContent>
+        </Card>
 
-        <section id="history" className={`${styles.libraryBlock} ${styles.panelShell} ${styles.libraryAnchorTarget}`}>
-          <span className={styles.panelBadge}>History</span>
-          <div className={styles.historyRows}>
+        <Card id="history" className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)] scroll-mt-28">
+          <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+            <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Historial del club</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-2 px-4 py-3">
             {historyRecentFirst.map((book) => (
               <Link
                 key={book.id}
                 href={`/my-clubs/${clubId}/${getBookRouteId(book.title)}`}
-                className={styles.historyRow}
+                className="grid gap-1 border-2 border-border bg-card px-3 py-2 transition-colors hover:bg-muted/20 md:grid-cols-[minmax(0,1fr)_auto_auto] md:items-center"
               >
-                <div className={styles.historyRowMain}>
-                  <h3 className={styles.historyRowTitle}>{book.title}</h3>
-                  <p className={styles.historyRowAuthor}>{book.author}</p>
+                <div className="min-w-0">
+                  <h3 className="truncate text-sm font-black">{book.title}</h3>
+                  <p className="truncate text-xs text-muted-foreground">{book.author}</p>
                 </div>
-                <p className={styles.historyRowDates}>
+                <p className="text-[0.65rem] font-semibold tracking-[0.04em] uppercase text-muted-foreground">
                   {formatShortRange(book.startDate, book.endDate)}
                 </p>
-                <div className={styles.historyRowRating}>
-                  <span className={styles.historyRowStars}>{stars(book.rating)}</span>
-                  <span className={styles.historyRowScore}>{book.rating.toFixed(1)}</span>
+                <div className="text-right">
+                  <p className="text-xs font-semibold">{stars(book.rating)}</p>
+                  <p className="text-sm font-black">{book.rating.toFixed(1)}</p>
                 </div>
               </Link>
             ))}
-          </div>
-        </section>
+          </CardContent>
+        </Card>
       </div>
 
-      <aside className={styles.librarySideColumn}>
-        <section className={`${styles.libraryBlock} ${styles.libraryPodiumBlock} ${styles.panelShell}`}>
-          <span className={styles.panelBadge}>Top 3 Club Podium</span>
-          <div className={styles.podiumStage} onMouseLeave={() => setActivePodiumId(null)}>
-            {podiumLayout.map((book) => {
-              const rank = podium.findIndex((podiumBook) => podiumBook.id === book.id) + 1;
-              return (
-                <button
-                  key={book.id}
-                  type="button"
-                  className={`${styles.podiumCard} ${
-                    rank === 1
-                      ? styles.podiumCardFirst
-                      : rank === 2
-                        ? styles.podiumCardSecond
-                        : styles.podiumCardThird
-                  } ${activePodiumBook?.id === book.id ? styles.podiumCardActive : ""}`}
-                  onMouseEnter={() => setActivePodiumId(book.id)}
-                  onMouseLeave={() => setActivePodiumId(null)}
-                  onFocus={() => setActivePodiumId(book.id)}
-                  onBlur={() => setActivePodiumId(null)}
-                >
-                  <div className={styles.podiumBookWrap}>
+      <aside>
+        <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+          <CardHeader className="border-b-2 border-border bg-muted/40 px-4 py-3">
+            <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Podio del club</CardTitle>
+          </CardHeader>
+          <CardContent className="grid gap-4 px-4 py-4" onMouseLeave={() => setActivePodiumId(null)}>
+            <div className="grid grid-cols-3 items-end gap-2">
+              {podiumLayout.map((book) => {
+                const rank = podium.findIndex((podiumBook) => podiumBook.id === book.id) + 1;
+                return (
+                  <button
+                    key={book.id}
+                    type="button"
+                    className={cn(
+                      "grid gap-2 border-2 border-border bg-card p-2",
+                      rank === 1 && "translate-y-0",
+                      rank !== 1 && "translate-y-2",
+                      activePodiumBook?.id === book.id && "bg-[var(--color-red-light)]"
+                    )}
+                    onMouseEnter={() => setActivePodiumId(book.id)}
+                    onMouseLeave={() => setActivePodiumId(null)}
+                    onFocus={() => setActivePodiumId(book.id)}
+                    onBlur={() => setActivePodiumId(null)}
+                  >
                     <ModernBookCover
                       size={rank === 1 ? "md" : "sm"}
                       radius="sm"
@@ -483,26 +476,28 @@ export default function ClubLibraryBoard({ clubId, readHistory, wishList }: Club
                       subtitle={book.author}
                       showText={false}
                     />
-                  </div>
-                  <span className={styles.podiumStep}>{rank}</span>
-                </button>
-              );
-            })}
-          </div>
+                    <span className="text-center text-xs font-black">#{rank}</span>
+                  </button>
+                );
+              })}
+            </div>
 
-          {activePodiumBook ? (
-            <article className={styles.podiumDetail}>
-              <h3 className={styles.podiumDetailTitle}>{activePodiumBook.title}</h3>
-              <p className={styles.podiumDetailRating}>
-                Valoración del club: {activePodiumBook.rating.toFixed(1)}/5
-              </p>
-              <p className={styles.podiumDetailVerdict}>{activePodiumBook.consensusVerdict}</p>
-              <p className={styles.podiumDetailDates}>
-                {formatShortRange(activePodiumBook.startDate, activePodiumBook.endDate)}
-              </p>
-            </article>
-          ) : null}
-        </section>
+            {activePodiumBook ? (
+              <article className="grid gap-1 border-2 border-border bg-muted/20 p-3">
+                <h3 className="text-sm font-black">{activePodiumBook.title}</h3>
+                <p className="text-xs font-semibold text-muted-foreground">
+                  Valoración del club: {activePodiumBook.rating.toFixed(1)}/5
+                </p>
+                <p className="text-sm">{activePodiumBook.consensusVerdict}</p>
+                <p className="text-[0.65rem] font-semibold tracking-[0.04em] uppercase text-muted-foreground">
+                  {formatShortRange(activePodiumBook.startDate, activePodiumBook.endDate)}
+                </p>
+              </article>
+            ) : (
+              <p className="text-xs text-muted-foreground">Pasá el cursor por un puesto del podio para ver el detalle.</p>
+            )}
+          </CardContent>
+        </Card>
       </aside>
     </section>
   );

@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { BookMemberRating, BookQuote } from "@/components/mock-app";
 import MemberPicker from "./MemberPicker";
-import styles from "./BookDetail.module.css";
 
 type CommunityQuotesSectionProps = {
   quotes: BookQuote[];
@@ -79,46 +80,53 @@ export default function CommunityQuotesSection({
 
   const currentPageQuotes = quotePages[activePage] ?? [];
   return (
-    <section className={styles.quotesSection}>
-      <div className={styles.quotesHeader}>
-        <h2 className={styles.quotesTitle}>Community Quotes</h2>
-        <div className={styles.quotesHeaderTools}>
-          <span className={styles.highlightsBadge}>{totalHighlights} Highlights</span>
+    <Card className="rounded-none border-4 border-border bg-card shadow-[8px_8px_0_var(--color-border)]">
+      <CardHeader className="flex flex-col gap-3 border-b-2 border-border bg-muted/40 px-4 py-3 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-center gap-2">
+          <CardTitle className="text-xs font-black tracking-[0.1em] uppercase">Citas de la comunidad</CardTitle>
+          <span className="border-2 border-border bg-card px-2 py-1 text-[0.62rem] font-black tracking-[0.08em] uppercase">
+            {totalHighlights} highlights
+          </span>
+        </div>
+        <div>
           <MemberPicker
             items={memberOptions}
             selectedIds={selectedMembers}
             onChange={handleSelectedMembersChange}
           />
         </div>
-      </div>
+      </CardHeader>
 
-      <div className={styles.quotesGrid}>
+      <CardContent className="grid gap-3 px-4 py-4">
+        <div className="grid gap-2 sm:grid-cols-2">
         {currentPageQuotes.map((quote, index) => {
           const globalIndex = activePage * quotesPerPage + index;
           return (
-            <div key={`${quote.member}-${globalIndex}`} className={styles.quoteCard}>
-              <div className={styles.quoteMark}>&ldquo;&rdquo;</div>
-              <p className={styles.quoteText}>{quote.text}</p>
-              <div className={styles.quoteFooter}>
-                <span className={styles.quoteAuthor}>Highlighted by {quote.member}</span>
-                <span className={styles.quotePage}>Pág. {quote.page}</span>
+            <article key={`${quote.member}-${globalIndex}`} className="grid gap-2 border-2 border-border bg-card px-3 py-3">
+              <p className="text-sm leading-relaxed">&ldquo;{quote.text}&rdquo;</p>
+              <div className="flex items-center justify-between gap-2 text-xs font-semibold text-muted-foreground">
+                <span>Destacada por {quote.member}</span>
+                <span>Pág. {quote.page}</span>
               </div>
-            </div>
+            </article>
           );
         })}
         {currentPageQuotes.length === 0 ? (
-          <div className={styles.emptyQuotesState}>No hay citas para el filtro seleccionado.</div>
+          <p className="border-2 border-dashed border-border bg-muted/20 px-3 py-4 text-center text-sm text-muted-foreground sm:col-span-2">
+            No hay citas para el filtro seleccionado.
+          </p>
         ) : null}
-      </div>
+        </div>
 
       {quotePages.length > 1 ? (
-        <div className={styles.quotesPagination}>
-          <div className={styles.pageControls} aria-label="Paginación de citas">
+          <div className="flex flex-wrap gap-1" aria-label="Paginación de citas">
             {quotePages.map((_, index) => (
-              <button
+              <Button
                 key={`quote-page-${index}`}
                 type="button"
-                className={`${styles.pageDot} ${index === activePage ? styles.pageDotActive : ""}`}
+                size="sm"
+                variant={index === activePage ? "default" : "outline"}
+                className="rounded-none border-2 border-border px-2 text-[0.62rem] font-black"
                 aria-label={`Ver citas página ${index + 1}`}
                 onClick={() => {
                   setActivePage(index);
@@ -130,11 +138,13 @@ export default function CommunityQuotesSection({
                     setIsAutoplayPaused(false);
                   }, 10000);
                 }}
-              />
+              >
+                {index + 1}
+              </Button>
             ))}
           </div>
-        </div>
       ) : null}
-    </section>
+      </CardContent>
+    </Card>
   );
 }

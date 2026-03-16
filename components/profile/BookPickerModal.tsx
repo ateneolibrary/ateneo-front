@@ -1,8 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import type { FavoriteBook } from "@/components/mock-app";
 import { getAllCatalogBooks } from "@/components/mock-app";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import styles from "./Profile.module.css";
 
 type BookPickerModalProps = {
@@ -30,9 +33,9 @@ export default function BookPickerModal({ onSelect, onClose, currentBooks }: Boo
         {/* Header */}
         <div className={styles.pickerHead}>
           <h3 className={styles.pickerTitle}>Elige un libro favorito</h3>
-          <button type="button" className={styles.pickerClose} onClick={onClose} aria-label="Cerrar">
+          <Button type="button" variant="outline" className={styles.pickerClose} onClick={onClose} aria-label="Cerrar">
             ✕
-          </button>
+          </Button>
         </div>
 
         {/* Search */}
@@ -50,7 +53,7 @@ export default function BookPickerModal({ onSelect, onClose, currentBooks }: Boo
             <circle cx="11" cy="11" r="8" />
             <line x1="21" y1="21" x2="16.65" y2="16.65" />
           </svg>
-          <input
+          <Input
             type="search"
             className={styles.pickerSearchInput}
             placeholder="Buscar por título o autor…"
@@ -71,14 +74,15 @@ export default function BookPickerModal({ onSelect, onClose, currentBooks }: Boo
             const isPicked = selectedIds.has(book.id);
             return (
               <li key={book.id} role="option" aria-selected={isPicked}>
-                <button
+                <Button
                   type="button"
+                  variant="outline"
                   className={`${styles.pickerItem} ${isPicked ? styles.pickerItemPicked : ""}`}
                   onClick={() => !isPicked && onSelect(book)}
                   disabled={isPicked}
                   aria-disabled={isPicked}
                 >
-                  <img
+                  <Image
                     src={book.cover}
                     alt={`Portada de ${book.title}`}
                     className={styles.pickerItemCover}
@@ -90,7 +94,7 @@ export default function BookPickerModal({ onSelect, onClose, currentBooks }: Boo
                     <span className={styles.pickerItemAuthor}>{book.author}</span>
                   </div>
                   {isPicked && <span className={styles.pickerItemTag}>Ya añadido</span>}
-                </button>
+                </Button>
               </li>
             );
           })}

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import type { ClubMeeting } from "@/components/mock-app";
-import styles from "./ClubMeetings.module.css";
 import CalendarDay from "./CalendarDay";
 
 const DIAS_SEMANA = ["Lun", "Mar", "Mié", "Jue", "Vie", "Sáb", "Dom"];
@@ -82,33 +82,50 @@ export default function MonthCalendar({ meetings, isAdmin, onDayClick, onAddEven
   }
 
   return (
-    <div>
-      {/* Header */}
-      <div className={styles.calendarHeader}>
-        <button className={styles.navBtn} onClick={prevMonth} aria-label="Mes anterior">
+    <div className="grid gap-3">
+      <div className="flex flex-wrap items-center gap-2 border-2 border-border bg-muted/40 p-2">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="rounded-none border-2 border-border px-2"
+          onClick={prevMonth}
+          aria-label="Mes anterior"
+        >
           ←
-        </button>
-        <span className={styles.monthName}>
+        </Button>
+        <span className="text-sm font-black tracking-[0.08em] uppercase">
           {MESES[viewMonth]} {viewYear}
         </span>
-        <button className={styles.navBtn} onClick={nextMonth} aria-label="Mes siguiente">
+        <Button
+          type="button"
+          variant="outline"
+          size="sm"
+          className="rounded-none border-2 border-border px-2"
+          onClick={nextMonth}
+          aria-label="Mes siguiente"
+        >
           →
-        </button>
+        </Button>
         {isAdmin && (
-          <button className={styles.addEventBtn} onClick={onAddEvent}>
+          <Button
+            type="button"
+            size="sm"
+            className="ml-auto rounded-none border-2 border-border bg-primary px-3 text-[0.68rem] font-black tracking-[0.08em] uppercase"
+            onClick={onAddEvent}
+          >
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" strokeWidth="2">
               <line x1="8" y1="2" x2="8" y2="14" />
               <line x1="2" y1="8" x2="14" y2="8" />
             </svg>
             Nueva reunión
-          </button>
+          </Button>
         )}
       </div>
 
-      {/* Grid */}
-      <div className={styles.calendarGrid}>
+      <div className="grid grid-cols-7 gap-1">
         {DIAS_SEMANA.map((d) => (
-          <div key={d} className={styles.weekDayLabel}>{d}</div>
+          <div key={d} className="border border-border bg-muted/30 py-1 text-center text-[0.68rem] font-black tracking-[0.08em] uppercase">{d}</div>
         ))}
         {cells.map((cell, i) => {
           const dateStr = toISODate(cell.year, cell.month, cell.day);

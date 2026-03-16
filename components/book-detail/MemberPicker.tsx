@@ -1,7 +1,17 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import styles from "./MemberPicker.module.css";
+import Image from "next/image";
+import { useMemo } from "react";
+
+import { Button } from "@/components/ui/button";
+import {
+  Popover,
+  PopoverContent,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
 
 export type MemberPickerItem = {
   id: string;
@@ -24,8 +34,6 @@ export default function MemberPicker({
   onChange,
   maxVisible = 4,
 }: MemberPickerProps) {
-  const [open, setOpen] = useState(false);
-
   const orderedItems = useMemo(() => {
     const selectedOrder = new Map(selectedIds.map((id, index) => [id, index]));
     const selected = items
@@ -55,71 +63,92 @@ export default function MemberPicker({
   }
 
   return (
-    <div className={styles.wrap}>
-      <div className={styles.stack}>
-        {visibleItems.map((item) => {
+    <div className="flex items-center gap-1">
+      <div className="flex items-center">
+        {visibleItems.map((item, index) => {
           const selected = selectedIds.includes(item.id);
           return (
             <button
               key={`member-chip-${item.id}`}
               type="button"
-              className={`${styles.chip} ${selected ? styles.chipSelected : ""}`}
+              className={cn(
+                "relative -ml-1 grid h-8 w-8 place-items-center overflow-hidden border-2 border-border bg-card first:ml-0",
+                index === 0 && "ml-0",
+                selected && "ring-2 ring-[var(--color-red-mid)]"
+              )}
               onClick={() => toggleItem(item.id)}
               aria-label={`Seleccionar ${item.name}`}
             >
               {item.avatar ? (
-                <img className={styles.avatar} src={item.avatar} alt={item.name} />
+                <Image className="h-full w-full object-cover" src={item.avatar} alt={item.name} width={32} height={32} />
               ) : (
-                <span className={styles.fallback}>{item.initial ?? item.name.slice(0, 1)}</span>
+                <span className="text-xs font-black">{item.initial ?? item.name.slice(0, 1)}</span>
               )}
             </button>
           );
         })}
       </div>
-      <button
-        type="button"
-        className={styles.plus}
-        aria-expanded={open}
-        aria-label="Mostrar miembros"
-        onClick={() => setOpen((current) => !current)}
-      >
-        {open ? "×" : hiddenCount > 0 ? `+${hiddenCount}` : "+"}
-      </button>
 
-      {open ? (
-        <div className={styles.dropdown}>
-          <div className={styles.heading}>Select a member</div>
-          <button
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button
             type="button"
-            className={`${styles.bulkOption} ${selectedIds.length === items.length ? styles.bulkOptionActive : ""}`}
+            size="sm"
+            variant="outline"
+            className="rounded-none border-2 border-border px-2 text-[0.62rem] font-black"
+            aria-label="Mostrar miembros"
+          >
+            {hiddenCount > 0 ? `+${hiddenCount}` : "Filtro"}
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent align="end" className="w-[290px] rounded-none border-2 border-border bg-card p-2">
+          <PopoverHeader>
+            <PopoverTitle className="text-[0.68rem] font-black tracking-[0.08em] uppercase">Filtrar miembros</PopoverTitle>
+          </PopoverHeader>
+
+          <Button
+            type="button"
+            size="sm"
+            variant="outline"
+            className="rounded-none border-2 border-border text-[0.62rem] font-black tracking-[0.08em] uppercase"
             onClick={toggleAll}
           >
             {selectedIds.length === items.length ? "Deseleccionar todos" : "Seleccionar todos"}
-          </button>
-          {orderedItems.map((item) => {
-            const selected = selectedIds.includes(item.id);
-            return (
-              <button
-                key={`member-option-${item.id}`}
-                type="button"
-                className={`${styles.option} ${selected ? styles.optionActive : ""}`}
-                onClick={() => toggleItem(item.id)}
-              >
-                {item.avatar ? (
-                  <img className={styles.optionAvatar} src={item.avatar} alt={item.name} />
-                ) : (
-                  <span className={styles.optionFallback}>{item.initial ?? item.name.slice(0, 1)}</span>
-                )}
-                <span className={styles.optionMeta}>
-                  <span className={styles.optionName}>{item.name}</span>
-                  <span className={styles.optionRole}>{item.role}</span>
-                </span>
-                <span className={styles.optionState}>{selected ? "Selected" : ""}</span>
-              </button>
-            );
-          })}
-        </div>
-      ) : null}
+          </Button>
+
+          <div className="grid gap-1.5">
+            {orderedItems.map((item) => {
+              const selected = selectedIds.includes(item.id);
+              return (
+                <button
+                  key={`member-option-${item.id}`}
+                  type="button"
+                  className={cn(
+                    "grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-2 border-2 border-border px-2 py-1.5 text-left",
+                    selected ? "bg-[var(--color-red-light)]" : "bg-card"
+                  )}
+                  onClick={() => toggleItem(item.id)}
+                >
+                  {item.avatar ? (
+                    <Image className="h-8 w-8 border-2 border-border object-cover" src={item.avatar} alt={item.name} width={32} height={32} />
+                  ) : (
+                    <span className="grid h-8 w-8 place-items-center border-2 border-border bg-muted text-xs font-black">
+                      {item.initial ?? item.name.slice(0, 1)}
+                    </span>
+                  )}
+                  <span className="min-w-0">
+                    <span className="block truncate text-sm font-semibold">{item.name}</span>
+                    <span className="block truncate text-xs text-muted-foreground">{item.role}</span>
+                  </span>
+                  <span className="text-[0.62rem] font-black tracking-[0.08em] uppercase text-muted-foreground">
+                    {selected ? "Activo" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </PopoverContent>
+      </Popover>
     </div>
   );
 }
