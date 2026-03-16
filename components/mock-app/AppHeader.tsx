@@ -34,9 +34,9 @@ export default function AppHeader() {
   ];
 
   const marketingActions = [
-    { href: "/create-account", label: "Crear cuenta", tone: "primary" },
+    { href: "/?auth=signup", label: "Crear cuenta", tone: "primary" },
     { href: "/explore", label: "Explorar", tone: "secondary" },
-    { href: "/login", label: "Entrar", tone: "secondary" },
+    { href: "/?auth=login", label: "Iniciar sesión", tone: "secondary" },
   ];
 
   const authActions =
